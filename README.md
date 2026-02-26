@@ -1,7 +1,7 @@
-<h1 align="center" style="color:#2ecc71"><b> 🚘 ParkVision  </b></h1>
+<h1 align="center" style="color:#2ecc71"><b> 🚘 ParkMate  </b></h1>
 <div align="center">
 <a href=" rel="noopener">
-<img width=30% height=-0% src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHFsYXU3cXlwZW0zbzF0NzB5NTQ1ZHA3MGE4NTVvY3BoOHl1Z2o3ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/riYLEMZep6tcsPbMI4/giphy.gif" alt="ParkVision">
+<img width=30% height=-0% src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHFsYXU3cXlwZW0zbzF0NzB5NTQ1ZHA3MGE4NTVvY3BoOHl1Z2o3ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/riYLEMZep6tcsPbMI4/giphy.gif" alt="ParkMate">
 </div>
 <div align="center">
     <p>🔮 Predictive | 💡 Efficient | 🧠 Smart Mobility</p>
@@ -11,8 +11,8 @@
   
 # 📋 About
 
-<h3>Hello, we are Park Vision!</h3>
-At Park Vision, our purpose is to transform the way people experience parking in the city. We are building a smart platform that helps drivers instantly find available parking spaces — saving time, reducing stress, and improving urban mobility.<br>
+<h3>Hello, we are ParkMate!</h3>
+At ParkMate, our purpose is to transform the way people experience parking in the city. We are building a smart platform that helps drivers instantly find available parking spaces — saving time, reducing stress, and improving urban mobility.<br>
 By using real-time data, predictive technology, and intelligent mapping, we connect drivers with available spaces exactly when and where they need them. Through seamless navigation, accurate availability insights, and user-friendly design, we aim to create a smoother, smarter, and more efficient city experience.<br>
 We believe that parking shouldn’t be a problem — it should be simple.<br>
 Because your time matters.
@@ -80,7 +80,7 @@ Because your time matters.
 <p> Open cmd and clone our repo by typing</p>
 
 ```
-https://github.com/IHNoneva24/ParkVision.git
+https://github.com/IHNoneva24/ParkMate.git
 ```
 <p>Thank you for scrolling this far! Show some 🤍 by starring the repo!</p>
 
