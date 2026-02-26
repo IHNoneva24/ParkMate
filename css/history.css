@@ -1,0 +1,32 @@
+/* ============ HISTORY ============ */
+.history-stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.history-stats .stat-card {
+    flex: 1;
+    min-width: 200px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.history-stats .stat-label {
+    color: var(--text-light);
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.history-stats .stat-value {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.history-stats .stat-value.rating {
+    color: #F39C12;
+}

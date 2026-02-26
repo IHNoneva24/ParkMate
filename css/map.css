@@ -1,0 +1,261 @@
+/* ============ MAP STYLES ============ */
+.map-container {
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    height: 600px;
+}
+
+#leafletMap {
+    width: 100%;
+    height: 100%;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+}
+
+.burgas-map {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.parking-marker {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.parking-marker:hover circle {
+    r: 20;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+}
+
+.map-legend {
+    display: flex;
+    gap: 30px;
+    background: var(--white);
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.available {
+    background: #27AE60;
+}
+
+.full {
+    background: #E74C3C;
+}
+
+.reserved {
+    background: #3498DB;
+}
+
+/* Map Layout */
+.map-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.location-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #3498DB;
+    color: #3498DB;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.location-btn:hover {
+    background: #3498DB;
+    color: white;
+}
+
+.refresh-btn {
+    position: absolute;
+    top: 20px;
+    right: 70px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #27AE60;
+    color: #27AE60;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+    background: #27AE60;
+    color: white;
+}
+
+.refresh-btn.spinning {
+    animation: spinIcon 1s linear infinite;
+}
+
+@keyframes spinIcon {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.weather-widget {
+    width: 250px;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.weather-widget h3 {
+    margin: 0 0 15px 0;
+    color: var(--text-dark);
+}
+
+.weather-main {
+    text-align: center;
+    padding: 20px 0;
+}
+
+#weatherIcon {
+    font-size: 3em;
+    color: #FFD700;
+    margin-bottom: 10px;
+}
+
+#weatherTemp {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+#weatherDesc {
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.weather-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 0.9em;
+}
+
+.navigation-panel {
+    margin-top: 18px;
+}
+
+.navigation-panel h4 {
+    margin: 0 0 10px 0;
+    color: var(--text-dark);
+    font-size: 1.05em;
+}
+
+.nav-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-inputs label {
+    font-size: 0.9em;
+    color: var(--text-light);
+}
+
+.nav-inputs input,
+.nav-inputs select {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-buttons .btn {
+    flex: 1;
+}
+
+.weather-extra {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.weather-extra div {
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin-top: 5px;
+}
+
+.weather-extra div:first-child {
+    margin-top: 0;
+}
+
+/* Modern popup styles */
+.modern-parking-popup .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.modern-parking-popup .leaflet-popup-content {
+    margin: 0;
+    border-radius: 12px;
+}
+
+.modern-parking-popup .leaflet-popup-tip {
+    background: white;
+}
+
+.current-location-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.user-location-marker {
+    animation: pulse 2s infinite;
+}

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#3498DB">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ParkMate">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#3498DB">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <title>ParkMate - Умно Паркиране</title>
+    <link rel="manifest" href="manifest.json">
+    <!-- CSS files -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/parking.css">
+    <link rel="stylesheet" href="css/bookings.css">
+    <link rel="stylesheet" href="css/statistics.css">
+    <link rel="stylesheet" href="css/reviews.css">
+    <link rel="stylesheet" href="css/wallet.css">
+    <link rel="stylesheet" href="css/history.css">
+    <link rel="stylesheet" href="css/news.css">
+    <link rel="stylesheet" href="css/faq.css">
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+</head>
+<body>
+    <!-- AUTH SECTION -->
+    <div id="authContainer" class="auth-container">
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form active-form">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1><i class="fas fa-parking"></i> ParkVision</h1>
+                    <p>Умна система за паркирање</p>
+                </div>
+                <form id="loginFormElement" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="loginEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword"><i class="fas fa-lock"></i> Пароля</label>
+                        <input type="password" id="loginPassword" required placeholder="Въведи пароля">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Влез</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Нямаш акаунт? <a href="#" onclick="toggleForms()">Регистрирай се</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="auth-form">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1><i class="fas fa-parking"></i> ParkVision</h1>
+                    <p>Започни своята история</p>
+                </div>
+                <form id="registerFormElement" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="registerName"><i class="fas fa-user"></i> Име</label>
+                        <input type="text" id="registerName" required placeholder="Иван Петров">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="registerEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone"><i class="fas fa-phone"></i> Телефон</label>
+                        <input type="tel" id="registerPhone" required placeholder="+359888123456">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword"><i class="fas fa-lock"></i> Пароля</label>
+                        <input type="password" id="registerPassword" required placeholder="Създай пароля">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirm"><i class="fas fa-lock"></i> Повтори пароля</label>
+                        <input type="password" id="registerConfirm" required placeholder="Повтори пароля">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Регистрирай се</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Вече имаш акаунт? <a href="#" onclick="toggleForms()">Влез</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP SECTION -->
+    <div id="appContainer" class="app-container" style="display: none;">
+        <!-- Header Navigation -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-map-location-dot"></i>
+                    <span>ParkVision</span>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <span id="userNameDisplay"></span>
+                        <button class="btn btn-small" onclick="openUserProfile()">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-small" id="languageBtn" onclick="toggleLanguage()" title="Switch Language / Смени език">
+                        <i class="fas fa-globe"></i>
+                    </button>
+                    <button class="btn btn-logout" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Изход
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav class="nav-menu">
+                    <div class="nav-section-title">НАВИГАЦИЯ</div>
+                    <a href="#" onclick="switchTab('map')" class="nav-item active" data-tab="map">
+                        <i class="fas fa-map"></i>
+                        <span>Карта</span>
+                    </a>
+                    <a href="#" onclick="switchTab('parking-list')" class="nav-item" data-tab="parking-list">
+                        <i class="fas fa-list"></i>
+                        <span>Паркомества</span>
+                    </a>
+                    <a href="#" onclick="switchTab('favorites')" class="nav-item" data-tab="favorites">
+                        <i class="fas fa-heart"></i>
+                        <span>Любими</span>
+                    </a>
+                    <a href="#" onclick="switchTab('bookings')" class="nav-item" data-tab="bookings">
+                        <i class="fas fa-calendar"></i>
+                        <span>Резервации</span>
+                    </a>
+
+                    <div class="nav-section-title">УСЛУГИ</div>
+                    <a href="#" onclick="switchTab('statistics')" class="nav-item" data-tab="statistics">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Статистика</span>
+                    </a>
+                    <a href="#" onclick="switchTab('reviews')" class="nav-item" data-tab="reviews">
+                        <i class="fas fa-star"></i>
+                        <span>Отзиви</span>
+                    </a>
+                    <a href="#" onclick="switchTab('wallet')" class="nav-item" data-tab="wallet">
+                        <i class="fas fa-wallet"></i>
+                        <span>Портфейл</span>
+                    </a>
+                    <a href="#" onclick="switchTab('history')" class="nav-item" data-tab="history">
+                        <i class="fas fa-history"></i>
+                        <span>История</span>
+                    </a>
+
+                    <div class="nav-section-title">ИНФОРМАЦИЯ</div>
+                    <a href="#" onclick="switchTab('news')" class="nav-item" data-tab="news">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Новини</span>
+                    </a>
+                    <a href="#" onclick="switchTab('faq')" class="nav-item" data-tab="faq">
+                        <i class="fas fa-question-circle"></i>
+                        <span>ЧЗВ</span>
+                    </a>
+                    <a href="#" onclick="switchTab('contact')" class="nav-item" data-tab="contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>Контакт</span>
+                    </a>
+                    <a href="#" onclick="switchTab('settings')" class="nav-item" data-tab="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Настройки</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="content">
+                <!-- Map Tab -->
+                <section id="map" class="tab-content active">
+                    <div class="section-header">
+                        <h2><i class="fas fa-map"></i> Карта на Бургас</h2>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: flex-start;">
+                        <div id="mapContainer" class="map-container" style="height: 600px; flex: 1; position: relative;">
+                            <div id="leafletMap" style="width: 100%; height: 100%; border-radius: 15px;"></div>
+                            <button id="locationButton" onclick="getUserLocation()" style="position: absolute; top: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; border-radius: 50%; background: white; border: 2px solid #3498DB; color: #3498DB; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease;" title="Моето местоположение">
+                                <i class="fas fa-crosshairs"></i>
+                            </button>
+                        </div>
+                        <div id="weatherWidget" class="weather-widget" style="width: 250px; background: white; border-radius: 15px; padding: 20px; box-shadow: var(--shadow);">
+                            <h3 style="margin: 0 0 15px 0; color: var(--text-dark);"><i class="fas fa-cloud-sun"></i> Времето</h3>
+                            <div id="weatherContent">
+                                <div style="text-align: center; padding: 20px;">
+                                    <i class="fas fa-sun" style="font-size: 3em; color: #FFD700; margin-bottom: 10px;"></i>
+                                    <div style="font-size: 2em; font-weight: 700; color: var(--text-dark);" id="weatherTemp">18°C</div>
+                                    <div style="color: var(--text-light); margin-bottom: 15px;" id="weatherDesc">Слънчево</div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9em;">
+                                        <div><i class="fas fa-wind"></i> Вятър: <span id="weatherWind">5 km/h</span></div>
+                                        <div><i class="fas fa-tint"></i> Влажност: <span id="weatherHumidity">65%</span></div>
+                                        <div><i class="fas fa-eye"></i> Видимост: <span id="weatherVisibility">10 km</span></div>
+                                        <div><i class="fas fa-tachometer-alt"></i> Налягане: <span id="weatherPressure">1013 hPa</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="navigationPanel" style="margin-top: 18px;">
+                                <h4 style="margin:0 0 10px 0; color: var(--text-dark); font-size: 1.05em;"><i class="fas fa-route"></i> Навигация</h4>
+                                <div style="display:flex; flex-direction: column; gap:8px;">
+                                    <label style="font-size:0.9em; color:var(--text-light);">Въведете текуща локация (lat,lng) или оставете празно за автоматично:</label>
+                                    <input id="manualLocationInput" type="text" placeholder="42.5038,27.4626" style="padding:8px; border:1px solid var(--border-color); border-radius:6px;">
+                                    <label style="font-size:0.9em; color:var(--text-light);">Избери паркинг:</label>
+                                    <select id="navigateParkingSelect" style="padding:8px; border:1px solid var(--border-color); border-radius:6px;"></select>
+                                    <div style="display:flex; gap:8px;">
+                                        <button class="btn btn-primary" onclick="startNavigationFromInput()" style="flex:1;">Навигирай</button>
+                                        <button class="btn" onclick="clearRoute()" style="flex:1;">Изчисти</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                                <div style="font-size: 0.9em; color: var(--text-light);">
+                                    <i class="fas fa-umbrella"></i> Дъжд: <span id="weatherRain">0%</span>
+                                </div>
+                                <div style="font-size: 0.9em; color: var(--text-light); margin-top: 5px;">
+                                    <i class="fas fa-sun"></i> UV индекс: <span id="weatherUV">Нисък</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="map-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #27AE60;"></div>
+                            <span>Свободен парк</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #E74C3C;"></div>
+                            <span>Пълен парк</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #3498DB;"></div>
+                            <span>Резервиран парк</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Parking List Tab -->
+                <section id="parking-list" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-list"></i> Всички паркомества в Бургас</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Намерете идеалното место за вашия автомобил</p>
+                    </div>
+                    <div class="filter-group" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 25px; padding: 20px; background: white; border-radius: 12px; box-shadow: var(--shadow);">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">
+                                <i class="fas fa-search"></i> Търси паркинг
+                            </label>
+                            <input type="text" id="searchParkings" placeholder="Въведи название на паркинг..." class="search-input" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95em;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">
+                                <i class="fas fa-filter"></i> Филтрирай по статус
+                            </label>
+                            <select id="filterStatus" class="filter-select" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: white; cursor: pointer; font-size: 0.95em;">
+                                <option value="">Всички статуси</option>
+                                <option value="available">Свободни</option>
+                                <option value="full">Пълни</option>
+                                <option value="reserved">Резервирани</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">
+                                <i class="fas fa-euro-sign"></i> Макс. цена (BGN/час)
+                            </label>
+                            <input type="number" id="priceFilter" placeholder="Напр. 5.00" min="0" step="0.50" class="search-input" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95em;">
+                        </div>
+                    </div>
+                    <div id="parkingListContainer" class="parking-list"></div>
+                    <div id="noParkingsMessage" style="text-align: center; padding: 60px 20px; color: var(--text-light); display: none;">
+                        <i class="fas fa-search" style="font-size: 3em; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
+                        <p style="font-size: 1.1em; margin: 0;">Не намерихме паркомещата, които търсите</p>
+                        <p style="font-size: 0.95em; margin-top: 10px;">Опитайте с други критерии за търсене</p>
+                    </div>
+                </section>
+
+                <!-- Favorites Tab -->
+                <section id="favorites" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-heart"></i> Любимите ми паркомества</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Паркомествата, които сте отбелязали като любими</p>
+                    </div>
+                    <div id="favoritesContainer" class="parking-list"></div>
+                    <div id="noFavoritesMessage" style="text-align: center; padding: 60px 20px; color: var(--text-light);">
+                        <i class="fas fa-heart" style="font-size: 3em; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
+                        <p style="font-size: 1.1em; margin: 0;">Все още нямате любими паркомества</p>
+                        <p style="font-size: 0.95em; margin-top: 10px;">Отбележете паркомествата с <i class="fas fa-heart"></i> в списъка</p>
+                    </div>
+                </section>
+
+                <!-- Bookings Tab -->
+                <section id="bookings" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-calendar"></i> Моите резервации</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Активни резервации и предстоящи паркирания</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 25px;">
+                        <div style="background: var(--white); padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary-color); box-shadow: var(--shadow);">
+                            <div style="color: var(--text-light); font-size: 0.85em; margin-bottom: 5px;">Активни резервации</div>
+                            <div style="font-size: 1.8em; font-weight: 700; color: var(--primary-color);" id="activeBookingsCount">0</div>
+                        </div>
+                        <div style="background: var(--white); padding: 15px; border-radius: 10px; border-left: 4px solid var(--success-color); box-shadow: var(--shadow);">
+                            <div style="color: var(--text-light); font-size: 0.85em; margin-bottom: 5px;">Брой часове резервирани</div>
+                            <div style="font-size: 1.8em; font-weight: 700; color: var(--success-color);" id="totalReservedHours">0h</div>
+                        </div>
+                    </div>
+                    <div id="bookingsContainer" class="bookings-list"></div>
+                    <div id="noBookingsMessage" style="text-align: center; padding: 60px 20px; color: var(--text-light); display: none;">
+                        <i class="fas fa-calendar-times" style="font-size: 3em; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
+                        <p style="font-size: 1.1em; margin: 0;">Все още нямате активни резервации</p>
+                        <p style="font-size: 0.95em; margin-top: 10px;">Преминете към Паркомества, за да резервирате паркинг</p>
+                    </div>
+                </section>
+
+                <!-- Statistics Tab -->
+                <section id="statistics" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-bar"></i> Моята статистика</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Преглед на вашите паркинг дейности</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #3498DB;">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="totalBookings">0</div>
+                                <div class="stat-label">Общо резервации</div>
+                                <div style="font-size: 0.85em; color: var(--text-light); margin-top: 5px;">Брой направени резервации</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #27AE60;">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="totalSpent">0 BGN</div>
+                                <div class="stat-label">Общи разходи</div>
+                                <div style="font-size: 0.85em; color: var(--text-light); margin-top: 5px;">Вложено в паркиране</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #E74C3C;">
+                                <i class="fas fa-hourglass-end"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="totalHours">0h</div>
+                                <div class="stat-label">Часове паркинг</div>
+                                <div style="font-size: 0.85em; color: var(--text-light); margin-top: 5px;">Брой изхарчени часове</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #F39C12;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="avgRating">4.5</div>
+                                <div class="stat-label">Среден рейтинг</div>
+                                <div style="font-size: 0.85em; color: var(--text-light); margin-top: 5px;">На посещаваните паркинги</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="chartsContainer" style="margin-top: 30px; background: var(--white); padding: 25px; border-radius: 12px; box-shadow: var(--shadow);"></div>
+                </section>
+
+                <!-- Reviews Tab -->
+                <section id="reviews" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Отзиви и обратна връзка</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Вижте отзивите и споделете вашето мнение</p>
+                    </div>
+                    
+                    <!-- General Feedback Section -->
+                    <div style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: var(--shadow);">
+                        <h3 style="margin-bottom: 15px; color: var(--text-dark);"><i class="fas fa-comments"></i> Обратна връзка за приложението</h3>
+                        <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                            <div style="margin-bottom: 15px;">
+                                <textarea id="feedbackText" required placeholder="Споделете вашето мнение, предложения или проблеми..." style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; min-height: 100px; resize: none;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
+                                <i class="fas fa-paper-plane"></i> Изпрати обратна връзка
+                            </button>
+                        </form>
+                        <div id="feedbackMessage" style="margin-top: 15px; padding: 10px; border-radius: 6px; display: none;"></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <button class="btn btn-primary" onclick="showReviewForm()" style="width: 100%; padding: 12px;">
+                            <i class="fas fa-pen"></i> Напиши отзив за паркинг
+                        </button>
+                    </div>
+                    <div id="reviewsContainer" style="display: flex; flex-direction: column; gap: 15px;"></div>
+                </section>
+
+                <!-- Wallet Tab -->
+                <section id="wallet" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-wallet"></i> Портфейл</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Управление на вашите средства и трансакции</p>
+                    </div>
+                    <div class="wallet-container">
+                        <div>
+                            <div class="balance-card">
+                                <div class="balance-label"><i class="fas fa-piggy-bank"></i> Ваш баланс</div>
+                                <div class="balance-amount" id="walletBalance">50.00 BGN</div>
+                                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                                    <button class="btn btn-primary" style="flex: 1; padding: 12px;" onclick="addFunds()">
+                                        <i class="fas fa-plus"></i> Добави средства
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="background: rgba(39, 174, 96, 0.1); border-left: 4px solid var(--success-color); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <div style="font-weight: 600; color: var(--success-color); margin-bottom: 5px;"><i class="fas fa-check-circle"></i> Актуално</div>
+                                <div style="font-size: 0.9em; color: var(--text-light);">Вашата сметка е активна и готова за ползване</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: var(--shadow);">
+                                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                    <h3 style="margin: 0; flex: 1;"><i class="fas fa-receipt"></i> История на преводи</h3>
+                                    <span style="background: var(--primary-light); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85em;" id="transactionCount">0</span>
+                                </div>
+                                <div id="transactionsContainer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- History Tab -->
+                <section id="history" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-clock"></i> История на резервации</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Всички ваши завършени паркирания</p>
+                    </div>
+                    <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px; background: white; padding: 15px; border-radius: 12px; box-shadow: var(--shadow);">
+                            <div style="color: var(--text-light); font-size: 0.9em; margin-bottom: 5px;">Завършени паркирания</div>
+                            <div style="font-size: 1.8em; font-weight: 700; color: var(--primary-color);" id="completedCount">0</div>
+                        </div>
+                        <div style="flex: 1; min-width: 200px; background: white; padding: 15px; border-radius: 12px; box-shadow: var(--shadow);">
+                            <div style="color: var(--text-light); font-size: 0.9em; margin-bottom: 5px;">Среден рейтинг</div>
+                            <div style="font-size: 1.8em; font-weight: 700; color: #F39C12;" id="historyRating">0</div>
+                        </div>
+                    </div>
+                    <div id="historyContainer" class="bookings-list"></div>
+                </section>
+
+                <!-- News Tab -->
+                <section id="news" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-newspaper"></i> Новини за Бургас</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Запознайте се с последните новини за паркирането</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">
+                        <div id="newsContainer"></div>
+                    </div>
+                </section>
+
+                <!-- FAQ Tab -->
+                <section id="faq" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> Често задавани въпроси</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Отговори на най-честите въпроси</p>
+                    </div>
+                    <div style="max-width: 800px; margin: 0 auto;">
+                        <div id="faqContainer" class="faq-container"></div>
+                    </div>
+                </section>
+
+                <!-- Contact Tab -->
+                <section id="contact" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-envelope"></i> Контакт с нас</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Имате въпрос? Свържете се с нас безплатно</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px; margin-top: 30px;">
+                        <div>
+                            <div class="contact-info">
+                                <div class="contact-card">
+                                    <i class="fas fa-phone"></i>
+                                    <h3>Телефон</h3>
+                                    <p>+359 56 123 456</p>
+                                    <small style="color: var(--text-light);">Пн-Пт: 9:00 - 18:00</small>
+                                </div>
+                                <div class="contact-card">
+                                    <i class="fas fa-envelope"></i>
+                                    <h3>Имейл</h3>
+                                    <p>contact@parkvision.bg</p>
+                                    <small style="color: var(--text-light);">Отговор потвърди за 24ч</small>
+                                </div>
+                                <div class="contact-card">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <h3>Физически офис</h3>
+                                    <p>ул. "Александър Батенберг" 1</p>
+                                    <small style="color: var(--text-light);">Бургас 8000</small>
+                                </div>
+                                <div class="contact-card">
+                                    <i class="fas fa-clock"></i>
+                                    <h3>Работни часа</h3>
+                                    <p><strong>Пн-Пт:</strong> 9:00 - 18:00</p>
+                                    <p style="margin-top: 5px;"><strong>Съб-Нд:</strong> 10:00 - 16:00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <form class="contact-form" onsubmit="sendMessage(event)" style="background: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow);">
+                                <h3 style="margin-bottom: 15px;"><i class="fas fa-paper-plane"></i> Изпрати съобщение</h3>
+                                <div class="form-group">
+                                    <label><i class="fas fa-user"></i> Ваше име</label>
+                                    <input type="text" required placeholder="Иван Петров" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95em;">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-at"></i> Имейл</label>
+                                    <input type="email" required placeholder="your@email.com" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95em;">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-heading"></i> Тема</label>
+                                    <input type="text" required placeholder="Тема на съобщението" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95em;">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-comment"></i> Съобщение</label>
+                                    <textarea rows="6" required placeholder="Вашето съобщение..." style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95em; font-family: inherit; resize: vertical;"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1em;">
+                                    <i class="fas fa-send"></i> Изпрати
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Tab -->
+                <section id="settings" class="tab-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cog"></i> Настройки</h2>
+                        <p style="color: var(--text-light); margin-top: 5px;">Персонализирайте вашия профил и предпочетания</p>
+                    </div>
+                    <div class="settings-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px;">
+                        <div class="settings-section" style="background: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow); border-left: 4px solid #3498DB;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <i class="fas fa-bell" style="font-size: 1.5em; color: #3498DB; margin-right: 10px;"></i>
+                                <h3 style="margin: 0;">Уведомления</h3>
+                            </div>
+                            <div class="setting-item" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" id="notifBooking" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span>Уведомления при резервация</span>
+                                </label>
+                                <small style="color: var(--text-light); margin-left: 28px;">Получавайте известия за вашите резервации</small>
+                            </div>
+                            <div class="setting-item" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" id="notifOffers" style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span>Email оферти</span>
+                                </label>
+                                <small style="color: var(--text-light); margin-left: 28px;">Получавайте специални оферти и намаления</small>
+                            </div>
+                            <div class="setting-item">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" id="notifSMS" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span>SMS напомняния</span>
+                                </label>
+                                <small style="color: var(--text-light); margin-left: 28px;">SMS reminders преди паркирането</small>
+                            </div>
+                        </div>
+
+                        <div class="settings-section" style="background: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow); border-left: 4px solid #27AE60;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <i class="fas fa-sliders-h" style="font-size: 1.5em; color: #27AE60; margin-right: 10px;"></i>
+                                <h3 style="margin: 0;">Преферирани настройки</h3>
+                            </div>
+                            <div class="setting-item" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Тема <i class="fas fa-sun" style="margin-right: 5px;"></i></label>
+                                <select id="themeSelect" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: white; cursor: pointer; font-size: 0.95em;">
+                                    <option>Светла</option>
+                                    <option>Тъмна</option>
+                                </select>
+                                <small style="color: var(--text-light);">Изберете предпочитаната визуална тема</small>
+                                <div style="margin-top:10px; display:flex; gap:8px;">
+                                    <button class="btn btn-primary" id="applyThemeBtn" style="flex:1;" onclick="applySelectedTheme()">Приложи тема</button>
+                                    <button class="btn" id="resetThemeBtn" style="flex:1;" onclick="resetTheme()">Нулирай</button>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Език <i class="fas fa-globe" style="margin-right: 5px;"></i></label>
+                                <select id="languageSelect" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: white; cursor: pointer; font-size: 0.95em;">
+                                    <option>Български</option>
+                                    <option>English</option>
+                                </select>
+                                <small style="color: var(--text-light);">Изберете предпочитаният език</small>
+                                <div style="margin-top:10px;">
+                                    <button class="btn" id="geocodeParkingsBtn" onclick="geocodeAllParkings()">Обнови координати на всички паркинги</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section" style="background: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow); border-left: 4px solid #E74C3C;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <i class="fas fa-lock" style="font-size: 1.5em; color: #E74C3C; margin-right: 10px;"></i>
+                                <h3 style="margin: 0;">Безопасност на акаунта</h3>
+                            </div>
+                            <button class="btn btn-primary" onclick="changePassword()" style="width: 100%; margin-bottom: 10px; padding: 12px;">
+                                <i class="fas fa-key"></i> Смени пароля
+                            </button>
+                            <button class="btn" onclick="openUserProfile()" style="width: 100%; margin-bottom: 10px; padding: 12px; background: var(--primary-light); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                <i class="fas fa-user"></i> Профилни данни
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteAccount()" style="width: 100%; padding: 12px;">
+                                <i class="fas fa-trash"></i> Изтрии профил
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Parking Details Modal -->
+    <div id="parkingModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeParkingModal()">&times;</span>
+            <div id="modalParkingDetails"></div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div id="userProfileModal" class="modal">
+        <div class="modal-content modal-profile">
+            <span class="modal-close" onclick="closeUserProfile()">&times;</span>
+            <h2>Профил на потребител</h2>
+            <div id="userProfileDetails"></div>
+            <button class="btn btn-danger" style="margin-top: 20px; width: 100%;" onclick="handleLogout()">Изход от акаунт</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/parking.js"></script>
+    <script src="js/bookings.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/reviews.js"></script>
+    <script src="js/wallet.js"></script>
+    <script src="js/history.js"></script>
+    <script src="js/news.js"></script>
+    <script src="js/faq.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/new.js"></script>
+</body>
+</html>

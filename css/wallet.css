@@ -1,0 +1,153 @@
+/* ============ WALLET ============ */
+.wallet-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.wallet-main {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.balance-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+}
+
+.balance-label {
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.balance-amount {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.wallet-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.wallet-buttons .btn {
+    flex: 1;
+    padding: 12px;
+}
+
+.wallet-status {
+    background: rgba(39, 174, 96, 0.1);
+    border-left: 4px solid var(--success-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.status-header {
+    font-weight: 600;
+    color: var(--success-color);
+    margin-bottom: 5px;
+}
+
+.status-text {
+    font-size: 0.9em;
+    color: var(--text-light);
+}
+
+.transaction-history {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+}
+
+.transaction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.transaction-header h3 {
+    margin: 0;
+    flex: 1;
+}
+
+.transaction-count {
+    background: var(--primary-light);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+}
+
+.transaction-item {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-type {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.transaction-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 600;
+}
+
+.transaction-icon.add {
+    background: var(--success-color);
+}
+
+.transaction-icon.subtract {
+    background: var(--danger-color);
+}
+
+.transaction-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.transaction-date {
+    color: var(--text-light);
+    font-size: 0.9em;
+}
+
+.transaction-amount {
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.transaction-amount.add {
+    color: var(--success-color);
+}
+
+.transaction-amount.subtract {
+    color: var(--danger-color);
+}

@@ -1,0 +1,541 @@
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 180px;
+    }
+
+    .logo {
+        font-size: 1.3em;
+    }
+
+    .header-content {
+        padding: 0 15px;
+        gap: 15px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .parking-list {
+        grid-template-columns: 1fr;
+    }
+
+    .map-container {
+        max-height: 400px;
+    }
+
+    .menu-toggle {
+        position: fixed;
+        top: 80px;
+        left: 15px;
+        z-index: 998;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: white;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+    }
+
+    .menu-toggle:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .filter-group {
+        flex-direction: column;
+    }
+
+    .search-input {
+        max-width: 100%;
+    }
+
+    .auth-card {
+        padding: 30px 20px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+
+    .wallet-container {
+        grid-template-columns: 1fr;
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 60px;
+        width: 250px;
+        height: calc(100vh - 60px);
+        background: var(--white);
+        z-index: 999;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main-content {
+        width: 100%;
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    .menu-toggle.show {
+        display: flex;
+    }
+
+    .user-info span {
+        display: none;
+    }
+
+    .header-right {
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 1.1em;
+    }
+
+    .section-header h2 {
+        font-size: 1.5em;
+    }
+
+    .auth-card {
+        width: 95%;
+        padding: 25px 15px;
+    }
+
+    .auth-header h1 {
+        font-size: 2em;
+    }
+
+    .settings-container {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .settings-section {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .settings-header {
+        font-size: 0.95em;
+    }
+
+    .settings-header i {
+        font-size: 1.2em;
+    }
+
+    .settings-header h3 {
+        font-size: 1em;
+    }
+
+    .setting-item {
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+    }
+
+    .setting-item small {
+        font-size: 0.8em;
+    }
+
+    .setting-item select,
+    .setting-item input {
+        font-size: 0.95em;
+        padding: 8px;
+    }
+
+    .theme-buttons {
+        flex-direction: column;
+    }
+
+    .geocode-container .btn {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        --border-radius: 8px;
+    }
+
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-radius: 0;
+        box-shadow: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-menu {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px;
+        gap: 5px;
+    }
+
+    .nav-item {
+        flex: 1;
+        min-width: 70px;
+        padding: 8px 5px;
+        font-size: 0.8em;
+    }
+
+    .nav-item i {
+        font-size: 1.2em;
+    }
+
+    .nav-item span {
+        display: none;
+    }
+
+    .nav-section-title {
+        display: none;
+    }
+
+    .content {
+        width: 100%;
+        margin: 0;
+        padding: 15px;
+    }
+
+    .header {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .header-content {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 1.2em;
+    }
+
+    .user-info span {
+        display: inline;
+        font-size: 0.9em;
+    }
+
+    .header-right {
+        gap: 8px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .btn-logout {
+        padding: 8px 10px;
+    }
+
+    #map .section-header + div {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #mapContainer {
+        height: 400px !important;
+        order: 2;
+    }
+
+    #weatherWidget {
+        width: 100% !important;
+        order: 1;
+        margin-bottom: 15px;
+    }
+
+    #locationButton {
+        top: 10px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+
+    .filter-group {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        padding: 15px !important;
+    }
+
+    .parking-card {
+        padding: 15px;
+    }
+
+    .parking-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .parking-status {
+        align-self: flex-end;
+    }
+
+    .parking-footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .parking-footer .btn {
+        width: 100%;
+    }
+
+    .modal-content {
+        width: 95% !important;
+        max-width: 95% !important;
+        margin: 10px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 15px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .booking-card {
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .booking-actions {
+        align-self: stretch;
+        margin-top: 15px;
+    }
+
+    .booking-actions .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    #compareBar {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+
+    #compareBar span {
+        display: none;
+    }
+
+    #weatherContent {
+        padding: 15px !important;
+    }
+
+    #weatherTemp {
+        font-size: 2.5em !important;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 16px;
+    }
+
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .spot-grid {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 10px;
+    }
+
+    .spot {
+        width: 60px;
+        height: 60px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding: 10px;
+    }
+
+    .section-header {
+        margin-bottom: 15px;
+    }
+
+    .section-header h2 {
+        font-size: 1.3em;
+    }
+
+    .auth-card {
+        padding: 20px 10px;
+    }
+
+    .auth-header h1 {
+        font-size: 1.8em;
+    }
+
+    .modal-content {
+        margin: 5px;
+        padding: 20px;
+        max-width: 95%;
+        width: 95%;
+    }
+
+    .location-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .refresh-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+        right: 55px;
+    }
+
+    .parking-card {
+        padding: 12px;
+    }
+
+    .parking-info {
+        gap: 10px;
+    }
+
+    .info-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+}
+
+/* iOS specific */
+@supports (-webkit-touch-callout: none) {
+    .modal-content {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .btn {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .btn:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+        font-size: 16px !important;
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 8px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+}
+
+/* Android specific */
+@supports not (-webkit-touch-callout: none) {
+    .btn {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:active {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* PWA */
+@media all and (display-mode: standalone) {
+    .header {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .content {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --white: #1a1a1a;
+        --bg-light: #2a2a2a;
+        --text-dark: #ffffff;
+        --text-light: #cccccc;
+        --border-color: #444444;
+        --primary-color: #4a90e2;
+        --success-color: #27AE60;
+        --error-color: #E74C3C;
+    }
+}

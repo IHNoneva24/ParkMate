@@ -1,0 +1,106 @@
+/* ============ SETTINGS ============ */
+.settings-section {
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+    border: 2px solid #3498DB;
+}
+
+.settings-section.notifications {
+    background: linear-gradient(135deg, #e6f7ff, #cce7ff);
+    border-color: #3498DB;
+}
+
+.settings-section.preferences {
+    background: linear-gradient(135deg, #d5f4e6, #a8e6cf);
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.2);
+    border-color: #27AE60;
+}
+
+.settings-section.security {
+    background: linear-gradient(135deg, #ffeaea, #ffcccc);
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.2);
+    border-color: #E74C3C;
+}
+
+.setting-item {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.setting-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.setting-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.setting-label label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.setting-item small {
+    display: block;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.85em;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+.setting-item select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-dark);
+    cursor: pointer;
+    font-size: 0.95em;
+    margin-top: 8px;
+}
+
+.setting-item select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+}
+
+.geocode-container {
+    margin-top: 15px;
+}
+
+.geocode-container .btn {
+    width: 100%;
+    padding: 12px;
+}
+
+.theme-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.theme-buttons .btn {
+    flex: 1;
+    padding: 10px;
+}
