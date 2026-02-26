@@ -49,8 +49,8 @@ Because your time matters.
 ---
 
 # 📁 Documents #
-+ [Presentation](./Documents/Presentation-PastPulse.pptx)
-+ [Documentation](./Documents/Documentation-PasPulse.docx)
++ [Presentation](https://codingburgas-my.sharepoint.com/:p:/g/personal/ihnoneva24_codingburgas_bg/IQCGXBxI_VNqQJwgDt2jx4bJATEhCL94z-yTDYl2ypghd6w?e=VAabP2)
++ [Documentation](https://codingburgas-my.sharepoint.com/:w:/g/personal/ihnoneva24_codingburgas_bg/IQBpM1kMwNMATLjnDIkFcsKSAbUz4ALftEm4QdDWGqUZM_k?e=EXHKpm)
 + [Video](./Documents)
   
  ---
