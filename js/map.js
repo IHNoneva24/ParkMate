@@ -173,7 +173,17 @@ function renderParkingOnMap() {
             minZoom: 12
         }).addTo(leafletMap);
         
-        parkingData.forEach(parking => {
+        // only show parkings within Burgas bounding box (approx) to ensure spots are in the city and on land
+    function isInBurgas(coord) {
+        // lat 42.45–42.60, lng 27.35–27.60 roughly covers Burgas area
+        return coord && coord.lat >= 42.45 && coord.lat <= 42.60 && coord.lng >= 27.35 && coord.lng <= 27.60;
+    }
+
+    parkingData.forEach(parking => {
+            if (!isInBurgas(parking.coordinates)) {
+                // skip parkings outside the allowed region
+                return;
+            }
             const color = parking.status === 'available' ? '#27AE60' : 
                          parking.status === 'full' ? '#E74C3C' : '#3498DB';
             
@@ -451,7 +461,12 @@ async function geocodeParking(parking) {
         if (data && data.length > 0) {
             const lat = parseFloat(data[0].lat);
             const lon = parseFloat(data[0].lon);
-            return { lat, lng: lon };
+            const coord = { lat, lng: lon };
+            // ensure geocoded result lies within Burgas bound
+            if (coord.lat >= 42.45 && coord.lat <= 42.60 && coord.lng >= 27.35 && coord.lng <= 27.60) {
+                return coord;
+            }
+            return null;
         }
         return null;
     } catch (e) {

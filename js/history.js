@@ -4,8 +4,8 @@ function loadHistory() {
     container.innerHTML = '';
 
     const demoCompletedBookings = [
-        { parkingName: 'Паркинг "Море"', bookingDate: '18 февруари 2026', duration: '2 часа', price: '7.00 BGN', status: '✓ Завършена' },
-        { parkingName: 'Паркинг "Плаж"', bookingDate: '15 февруари 2026', duration: '3 часа', price: '7.50 BGN', status: '✓ Завършена' },
+        { parkingName: 'Паркинг "Градски"', bookingDate: '18 февруари 2026', duration: '2 часа', price: '7.00 BGN', status: '✓ Завършена' },
+        { parkingName: 'Паркинг "Южен район"', bookingDate: '15 февруари 2026', duration: '3 часа', price: '7.50 BGN', status: '✓ Завършена' },
         { parkingName: 'Паркинг "Северен"', bookingDate: '10 февруари 2026', duration: '1 час', price: '2.75 BGN', status: '✓ Завършена' },
         { parkingName: 'Паркинг "Централен"', bookingDate: '05 февруари 2026', duration: '2 часа', price: '10.00 BGN', status: '✓ Завършена' }
     ];

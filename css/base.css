@@ -90,6 +90,10 @@ p, span, div {
     font-size: 1.3em;
 }
 
+.logo span {
+    color: var(--white); /* logo text should always be white */
+}
+
 .header-right {
     display: flex;
     align-items: center;
@@ -104,6 +108,7 @@ p, span, div {
 
 .user-info span {
     font-weight: 500;
+    color: var(--white); /* user name in header also white */
 }
 
 .main-content {

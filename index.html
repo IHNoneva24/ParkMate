@@ -40,7 +40,7 @@
         <div id="loginForm" class="auth-form active-form">
             <div class="auth-card">
                 <div class="auth-header">
-                    <h1><i class="fas fa-parking"></i> ParkVision</h1>
+                    <h1><i class="fas fa-parking"></i> ParkMate</h1>
                     <p>Умна система за паркирање</p>
                 </div>
                 <form id="loginFormElement" onsubmit="handleLogin(event)">
@@ -64,7 +64,7 @@
         <div id="registerForm" class="auth-form">
             <div class="auth-card">
                 <div class="auth-header">
-                    <h1><i class="fas fa-parking"></i> ParkVision</h1>
+                    <h1><i class="fas fa-parking"></i> ParkMate</h1>
                     <p>Започни своята история</p>
                 </div>
                 <form id="registerFormElement" onsubmit="handleRegister(event)">
@@ -104,7 +104,7 @@
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-map-location-dot"></i>
-                    <span>ParkVision</span>
+                    <span>ParkMate</span>
                 </div>
                 <div class="header-right">
                     <div class="user-info">
@@ -134,7 +134,7 @@
                     </a>
                     <a href="#" onclick="switchTab('parking-list')" class="nav-item" data-tab="parking-list">
                         <i class="fas fa-list"></i>
-                        <span>Паркомества</span>
+                        <span>Паркоместа</span>
                     </a>
                     <a href="#" onclick="switchTab('favorites')" class="nav-item" data-tab="favorites">
                         <i class="fas fa-heart"></i>
@@ -152,7 +152,7 @@
                     </a>
                     <a href="#" onclick="switchTab('reviews')" class="nav-item" data-tab="reviews">
                         <i class="fas fa-star"></i>
-                        <span>Отзиви</span>
+                        <span>Отзив</span>
                     </a>
                     <a href="#" onclick="switchTab('wallet')" class="nav-item" data-tab="wallet">
                         <i class="fas fa-wallet"></i>
@@ -290,20 +290,19 @@
                     </div>
                 </section>
 
-                <!-- Favorites Tab -->
-                <section id="favorites" class="tab-content">
-                    <div class="section-header">
-                        <h2><i class="fas fa-heart"></i> Любимите ми паркомества</h2>
-                        <p style="color: var(--text-light); margin-top: 5px;">Паркомествата, които сте отбелязали като любими</p>
-                    </div>
-                    <div id="favoritesContainer" class="parking-list"></div>
-                    <div id="noFavoritesMessage" style="text-align: center; padding: 60px 20px; color: var(--text-light);">
-                        <i class="fas fa-heart" style="font-size: 3em; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                        <p style="font-size: 1.1em; margin: 0;">Все още нямате любими паркомества</p>
-                        <p style="font-size: 0.95em; margin-top: 10px;">Отбележете паркомествата с <i class="fas fa-heart"></i> в списъка</p>
-                    </div>
-                </section>
-
+<!-- Favorites Tab -->
+<section id="favorites" class="tab-content">
+    <div class="section-header">
+        <h2><i class="fas fa-heart"></i> Любимите ми паркомества</h2>
+        <p style="color: var(--text-light); margin-top: 5px;">Паркомествата, които сте отбелязали като любими</p>
+    </div>
+    <div id="favoritesContainer" class="parking-list"></div>
+    <div id="noFavoritesMessage" style="text-align: center; padding: 60px 20px; color: var(--text-light);">
+        <i class="fas fa-heart" style="font-size: 4em; color: #ccc; margin-bottom: 20px; opacity: 0.5;"></i>
+        <p style="font-size: 1.1em; margin: 0; color: #666;">Все още нямате любими паркомества</p>
+        <p style="font-size: 0.95em; margin-top: 10px; color: #999;">Отбележете паркомествата с <i class="fas fa-heart" style="color: #ccc;"></i> в списъка</p>
+    </div>
+</section>
                 <!-- Bookings Tab -->
                 <section id="bookings" class="tab-content">
                     <div class="section-header">
@@ -501,7 +500,7 @@
                                 <div class="contact-card">
                                     <i class="fas fa-envelope"></i>
                                     <h3>Имейл</h3>
-                                    <p>contact@parkvision.bg</p>
+                                    <p>contact@parkmate.bg</p>
                                     <small style="color: var(--text-light);">Отговор потвърди за 24ч</small>
                                 </div>
                                 <div class="contact-card">
@@ -600,8 +599,8 @@
                             <div class="setting-item">
                                 <label style="display: block; margin-bottom: 8px; font-weight: 600;">Език <i class="fas fa-globe" style="margin-right: 5px;"></i></label>
                                 <select id="languageSelect" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: white; cursor: pointer; font-size: 0.95em;">
-                                    <option>Български</option>
-                                    <option>English</option>
+                                    <option value="bg">Български</option>
+                                    <option value="en">English</option>
                                 </select>
                                 <small style="color: var(--text-light);">Изберете предпочитаният език</small>
                                 <div style="margin-top:10px;">
@@ -665,6 +664,5 @@
     <script src="js/faq.js"></script>
     <script src="js/contact.js"></script>
     <script src="js/settings.js"></script>
-    <script src="js/new.js"></script>
 </body>
 </html>

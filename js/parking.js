@@ -37,7 +37,7 @@ function createParkingCard(parking) {
             </div>
             <div class="info-item">
                 <i class="fas fa-star" style="color: #FFD700;"></i>
-                <span>${parking.rating}/5 (${parking.reviews} отзива)</span>
+                <span>${parking.rating}/5 (${parking.reviews} Отзива)</span>
             </div>
         </div>
         <p class="parking-description">${parking.description}</p>
@@ -107,7 +107,7 @@ function showParkingDetails(parkingId) {
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
                     <i class="fas fa-star" style="font-size: 24px; color: #FFD700; margin-bottom: 8px;"></i>
                     <div style="font-size: 18px; font-weight: 700; color: var(--text-dark);">${parking.rating}/5</div>
-                    <div style="font-size: 12px; color: var(--text-light);">${parking.reviews} отзива</div>
+                    <div style="font-size: 12px; color: var(--text-light);">${parking.reviews} Отзива</div>
                 </div>
             </div>
 
@@ -329,25 +329,23 @@ function showCompareModal() {
 
 function loadFavorites() {
     const container = document.getElementById('favoritesContainer');
+    const emptyMessage = document.getElementById('noFavoritesMessage');
     container.innerHTML = '';
 
     const favoritesParkings = parkingData.filter(p => favorites.includes(p.id));
 
     if (favoritesParkings.length === 0) {
-        const emptyText = (translations && translations[currentLanguage] && translations[currentLanguage].noFavorites) || 'You have no favorite parkings yet';
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-heart"></i>
-                <p>${emptyText}</p>
-            </div>
-        `;
-        return;
+        container.style.display = 'none';
+        emptyMessage.style.display = 'block';
+    } else {
+        container.style.display = 'grid';
+        emptyMessage.style.display = 'none';
+        
+        favoritesParkings.forEach(parking => {
+            const card = createParkingCard(parking);
+            container.appendChild(card);
+        });
     }
-
-    favoritesParkings.forEach(parking => {
-        const card = createParkingCard(parking);
-        container.appendChild(card);
-    });
 }
 
 // Search and filter functionality

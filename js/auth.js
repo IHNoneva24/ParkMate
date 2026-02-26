@@ -85,5 +85,10 @@ function handleLogout() {
     localStorage.removeItem('bookings');
     localStorage.removeItem('wallet');
     localStorage.removeItem('transactions');
-    location.reload();
+    // instead of reloading, show auth forms again
+    if (typeof showAuth === 'function') {
+        showAuth();
+    } else {
+        location.reload();
+    }
 }
