@@ -348,6 +348,21 @@ function populateNavigationSelect() {
     const sel = document.getElementById('navigateParkingSelect');
     if (!sel) return;
     sel.innerHTML = '';
+    if (!parkingData || parkingData.length === 0) {
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Зареждане...';
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        sel.appendChild(placeholder);
+        return;
+    }
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = '— Избери паркинг —';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    sel.appendChild(placeholder);
     parkingData.forEach(p => {
         const opt = document.createElement('option');
         opt.value = p.id;
@@ -390,6 +405,10 @@ function startNavigationFromInput() {
     if (!select) return;
 
     const parkingId = parseInt(select.value, 10);
+    if (!parkingId) {
+        showNotification('Моля, избери паркинг от списъка.', 'error');
+        return;
+    }
     const parking = parkingData.find(p => p.id === parkingId);
     if (!parking) {
         showNotification('Избери валиден паркинг', 'error');

@@ -121,6 +121,7 @@ function switchTab(tabName) {
     if (tabName === 'map') {
         setTimeout(() => {
             renderParkingOnMap();
+            if (typeof populateNavigationSelect === 'function') populateNavigationSelect();
         }, 100);
     } else if (tabName === 'parking-list') {
         loadAllParkings();
