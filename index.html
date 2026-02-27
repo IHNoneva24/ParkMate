@@ -638,30 +638,30 @@
             <form id="adminEditForm" onsubmit="saveAdminParking(event)" style="display:flex;flex-direction:column;gap:12px;margin-top:15px;">
                 <input type="hidden" id="adminEditId">
                 <div class="form-group">
-                    <label>Наименование</label>
+                    <label id="adminModalNameLbl">Наименование</label>
                     <input type="text" id="adminEditName" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
                 </div>
                 <div class="form-group">
-                    <label>Местоположение</label>
+                    <label id="adminModalLocationLbl">Местоположение</label>
                     <input type="text" id="adminEditLocation" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                     <div class="form-group">
-                        <label>Общо места</label>
+                        <label id="adminModalTotalSpotsLbl">Общо места</label>
                         <input type="number" id="adminEditTotal" min="1" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
                     </div>
                     <div class="form-group">
-                        <label>Свободни места</label>
+                        <label id="adminModalAvailableSpotsLbl">Свободни места</label>
                         <input type="number" id="adminEditAvailable" min="0" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
                     </div>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                     <div class="form-group">
-                        <label>Цена (EUR/час)</label>
+                        <label id="adminModalPriceLbl">Цена (EUR/час)</label>
                         <input type="number" id="adminEditPrice" min="0" step="0.50" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
                     </div>
                     <div class="form-group">
-                        <label>Статус</label>
+                        <label id="adminModalStatusLbl">Статус</label>
                         <select id="adminEditStatus" style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
                             <option value="available">Свободен</option>
                             <option value="full">Пълен</option>
@@ -670,20 +670,20 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Описание</label>
+                    <label id="adminModalDescriptionLbl">Описание</label>
                     <textarea id="adminEditDescription" rows="3" style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;font-family:inherit;resize:none;"></textarea>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                     <div class="form-group">
-                        <label>Ширина (lat)</label>
+                        <label id="adminModalLatLbl">Ширина (lat)</label>
                         <input type="number" id="adminEditLat" step="0.0001" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
                     </div>
                     <div class="form-group">
-                        <label>Дължина (lng)</label>
+                        <label id="adminModalLngLbl">Дължина (lng)</label>
                         <input type="number" id="adminEditLng" step="0.0001" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="padding:12px;">
+                <button type="submit" id="adminModalSaveBtn" class="btn btn-primary" style="padding:12px;">
                     <i class="fas fa-save"></i> Запази
                 </button>
             </form>

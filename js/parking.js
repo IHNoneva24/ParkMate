@@ -13,8 +13,8 @@ function createParkingCard(parking) {
     const card = document.createElement('div');
     card.className = 'parking-card';
     const isFavorite = favorites.includes(parking.id);
-    const statusText = parking.status === 'available' ? 'Свободен' :
-                      parking.status === 'full' ? 'Пълен' : 'Резервиран';
+    const statusText = parking.status === 'available' ? t('statusAvailable') :
+                      parking.status === 'full' ? t('statusFull') : t('statusReserved');
     const statusClass = `status-${parking.status}`;
 
     card.innerHTML = `
@@ -29,7 +29,7 @@ function createParkingCard(parking) {
             </div>
             <div class="info-item">
                 <i class="fas fa-car"></i>
-                <span>${parking.availableSpots} / ${parking.totalSpots} места</span>
+                <span>${parking.availableSpots} / ${parking.totalSpots} ${t('spots')}</span>
             </div>
             <div class="info-item">
                 <i class="fas fa-dollar-sign"></i>
@@ -37,7 +37,7 @@ function createParkingCard(parking) {
             </div>
             <div class="info-item">
                 <i class="fas fa-star" style="color: #FFD700;"></i>
-                <span>${parking.rating}/5 (${parking.reviews} Отзива)</span>
+                <span>${parking.rating}/5 (${parking.reviews} ${t('reviews')})</span>
             </div>
         </div>
         <p class="parking-description">${parking.description}</p>
@@ -50,10 +50,10 @@ function createParkingCard(parking) {
                 <i class="fas fa-balance-scale"></i>
             </button>
             <button class="btn btn-view" onclick="showParkingDetails(${parking.id})">
-                <i class="fas fa-eye"></i> Детайли
+                <i class="fas fa-eye"></i> ${t('details')}
             </button>
             <button class="btn btn-reserve btn-success" onclick="makeBooking(${parking.id})">
-                <i class="fas fa-calendar"></i> Резервирай
+                <i class="fas fa-calendar"></i> ${t('reserve')}
             </button>
         </div>
     `;
@@ -66,8 +66,8 @@ function showParkingDetails(parkingId) {
     const modal = document.getElementById('parkingModal');
     const details = document.getElementById('modalParkingDetails');
 
-    const statusText = parking.status === 'available' ? 'Свободен' :
-                      parking.status === 'full' ? 'Пълен' : 'Резервиран';
+    const statusText = parking.status === 'available' ? t('statusAvailable') :
+                      parking.status === 'full' ? t('statusFull') : t('statusReserved');
 
     const spots = [];
     for (let i = 1; i <= parking.totalSpots; i++) {
@@ -97,17 +97,17 @@ function showParkingDetails(parkingId) {
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
                     <i class="fas fa-parking" style="font-size: 24px; color: #3498DB; margin-bottom: 8px;"></i>
                     <div style="font-size: 18px; font-weight: 700; color: var(--text-dark);">${parking.availableSpots}/${parking.totalSpots}</div>
-                    <div style="font-size: 12px; color: var(--text-light);">Свободни места</div>
+                    <div style="font-size: 12px; color: var(--text-light);">${t('freeSpots')}</div>
                 </div>
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
                     <i class="fas fa-euro-sign" style="font-size: 24px; color: #27AE60; margin-bottom: 8px;"></i>
                     <div style="font-size: 18px; font-weight: 700; color: var(--text-dark);">${parking.price}</div>
-                    <div style="font-size: 12px; color: var(--text-light);">На час</div>
+                    <div style="font-size: 12px; color: var(--text-light);">${t('perHour')}</div>
                 </div>
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
                     <i class="fas fa-star" style="font-size: 24px; color: #FFD700; margin-bottom: 8px;"></i>
                     <div style="font-size: 18px; font-weight: 700; color: var(--text-dark);">${parking.rating}/5</div>
-                    <div style="font-size: 12px; color: var(--text-light);">${parking.reviews} Отзива</div>
+                    <div style="font-size: 12px; color: var(--text-light);">${parking.reviews} ${t('reviews')}</div>
                 </div>
             </div>
 
@@ -115,20 +115,20 @@ function showParkingDetails(parkingId) {
             <div style="background: linear-gradient(135deg, #e8f4fd 0%, #d1ecf1 100%); border: 1px solid #3498DB; border-radius: 12px; padding: 15px; margin-bottom: 20px;">
                 <div style="display: flex; align-items: center; margin-bottom: 12px;">
                     <i class="fas fa-route" style="color: #3498DB; font-size: 18px; margin-right: 10px;"></i>
-                    <span style="font-size: 14px; font-weight: 700; color: #2C3E50;">Посока до паркинга</span>
+                    <span style="font-size: 14px; font-weight: 700; color: #2C3E50;">${t('directions')}</span>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
                     <div style="text-align: center;">
                         <div style="font-size: 20px; font-weight: 700; color: #3498DB;">${directions.distance} km</div>
-                        <div style="font-size: 11px; color: #7F8C8D;">РАЗСТОЯНИЕ</div>
+                        <div style="font-size: 11px; color: #7F8C8D;">${t('distance').toUpperCase()}</div>
                     </div>
                     <div style="text-align: center;">
                         <div style="font-size: 20px; font-weight: 700; color: #27AE60;">${directions.time} мин</div>
-                        <div style="font-size: 11px; color: #7F8C8D;">С КОЛА</div>
+                        <div style="font-size: 11px; color: #7F8C8D;">${t('byCar').toUpperCase()}</div>
                     </div>
                     <div style="text-align: center;">
                         <div style="font-size: 20px; font-weight: 700; color: #F39C12;">${directions.walkingTime} мин</div>
-                        <div style="font-size: 11px; color: #7F8C8D;">ПЕША</div>
+                        <div style="font-size: 11px; color: #7F8C8D;">${t('walking').toUpperCase()}</div>
                     </div>
                 </div>
             </div>
@@ -137,23 +137,23 @@ function showParkingDetails(parkingId) {
             <div style="margin-bottom: 20px;">
                 <h3 style="margin: 0 0 15px 0; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
                     <i class="fas fa-parking"></i>
-                    Изберете паркомясто
+                    ${t('selectSpotTitle')}
                 </h3>
                 <div class="spot-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); gap: 8px; max-height: 200px; overflow-y: auto; padding: 10px; background: #f8f9fa; border-radius: 10px;">
                     ${spots.join('')}
                 </div>
                 <div style="margin-top: 10px; font-size: 12px; color: var(--text-light);">
-                    <span style="color: #27AE60;">●</span> Свободно 
-                    <span style="color: #E74C3C; margin-left: 15px;">●</span> Заето
-                    <span style="color: #3498DB; margin-left: 15px;">●</span> Избрано
+                    <span style="color: #27AE60;">●</span> ${t('spotFree')} 
+                    <span style="color: #E74C3C; margin-left: 15px;">●</span> ${t('spotOccupied')}
+                    <span style="color: #3498DB; margin-left: 15px;">●</span> ${t('spotSelected')}
                 </div>
             </div>
 
             <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; margin-bottom: 20px;">
-                <h4 style="margin: 0 0 10px 0; color: var(--text-dark);">Описание</h4>
+                <h4 style="margin: 0 0 10px 0; color: var(--text-dark);">${t('description')}</h4>
                 <p style="margin: 0; color: var(--text-light); line-height: 1.5;">${parking.description}</p>
                 
-                <h4 style="margin: 15px 0 10px 0; color: var(--text-dark);">Удобства</h4>
+                <h4 style="margin: 15px 0 10px 0; color: var(--text-dark);">${t('amenities')}</h4>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                     ${parking.amenities.map(a => `<span style="background: #e9ecef; color: #495057; padding: 4px 8px; border-radius: 15px; font-size: 12px; display: flex; align-items: center; gap: 4px;"><i class="fas fa-check"></i>${a}</span>`).join('')}
                 </div>

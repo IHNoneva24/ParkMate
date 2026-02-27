@@ -12,54 +12,58 @@ let _adminStats = {};
 let _adminBookings = [];
 let _adminRevenue = [];
 
-async function loadAdminPanel() {
+async function loadAdminPanel(skipFetch = false) {
     if (!currentUser || !currentUser.isAdmin) return;
 
     const container = document.getElementById('adminPanelContent');
     if (!container) return;
 
-    // Prefetch admin data
-    try {
-        [_adminStats, _adminUsers, _adminBookings, _adminRevenue] = await Promise.all([
-            API.adminGetStats(),
-            API.adminGetUsers(),
-            API.adminGetBookings(),
-            API.adminGetRevenue()
-        ]);
-    } catch (e) {
-        console.error('Admin data load failed', e);
-        _adminStats = {}; _adminUsers = []; _adminBookings = []; _adminRevenue = [];
+    const prevSection = adminCurrentSection || 'dashboard';
+
+    // Prefetch admin data (skip if re-rendering for language change)
+    if (!skipFetch) {
+        try {
+            [_adminStats, _adminUsers, _adminBookings, _adminRevenue] = await Promise.all([
+                API.adminGetStats(),
+                API.adminGetUsers(),
+                API.adminGetBookings(),
+                API.adminGetRevenue()
+            ]);
+        } catch (e) {
+            console.error('Admin data load failed', e);
+            _adminStats = {}; _adminUsers = []; _adminBookings = []; _adminRevenue = [];
+        }
     }
 
     container.innerHTML = `
         <!-- Admin Header -->
         <div class="admin-header">
             <div>
-                <h2><i class="fas fa-shield-alt"></i> Административен Панел</h2>
-                <p>Управлявайте паркингите, потребителите и системата</p>
+                <h2><i class="fas fa-shield-alt"></i> ${t('adminPanelTitle')}</h2>
+                <p>${t('adminPanelDesc')}</p>
             </div>
-            <div class="admin-badge"><i class="fas fa-crown"></i> Администратор</div>
+            <div class="admin-badge"><i class="fas fa-crown"></i> ${t('adminBadge')}</div>
         </div>
 
         <!-- Admin Navigation Tabs -->
         <div class="admin-tabs">
             <button class="admin-tab-btn active" onclick="adminSwitchSection('dashboard')" id="atab-dashboard">
-                <i class="fas fa-tachometer-alt"></i> Табло
+                <i class="fas fa-tachometer-alt"></i> ${t('adminTabDashboard')}
             </button>
             <button class="admin-tab-btn" onclick="adminSwitchSection('map')" id="atab-map">
-                <i class="fas fa-map-marked-alt"></i> Карта & Паркинги
+                <i class="fas fa-map-marked-alt"></i> ${t('adminTabMap')}
             </button>
             <button class="admin-tab-btn" onclick="adminSwitchSection('parkings')" id="atab-parkings">
-                <i class="fas fa-parking"></i> Паркинги
+                <i class="fas fa-parking"></i> ${t('adminTabParkings')}
             </button>
             <button class="admin-tab-btn" onclick="adminSwitchSection('users')" id="atab-users">
-                <i class="fas fa-users"></i> Потребители
+                <i class="fas fa-users"></i> ${t('adminTabUsers')}
             </button>
             <button class="admin-tab-btn" onclick="adminSwitchSection('bookings')" id="atab-bookings">
-                <i class="fas fa-calendar-check"></i> Резервации
+                <i class="fas fa-calendar-check"></i> ${t('adminTabBookings')}
             </button>
             <button class="admin-tab-btn" onclick="adminSwitchSection('revenue')" id="atab-revenue">
-                <i class="fas fa-chart-line"></i> Приходи
+                <i class="fas fa-chart-line"></i> ${t('adminTabRevenue')}
             </button>
         </div>
 
@@ -95,6 +99,9 @@ async function loadAdminPanel() {
     `;
 
     adminCurrentSection = 'dashboard';
+    if (skipFetch && prevSection && prevSection !== 'dashboard') {
+        adminSwitchSection(prevSection);
+    }
 }
 
 // ---- Section Switcher ----
@@ -151,7 +158,7 @@ function buildDashboard() {
                 </div>
                 <div>
                     <div class="admin-stat-number">${regularUsers}</div>
-                    <div class="admin-stat-label">Регистрирани потребители</div>
+                    <div class="admin-stat-label">${t('adminRegisteredUsers')}</div>
                 </div>
             </div>
             <div class="admin-stat-card" style="border-color:#27ae60;">
@@ -160,7 +167,7 @@ function buildDashboard() {
                 </div>
                 <div>
                     <div class="admin-stat-number">${totalParkings}</div>
-                    <div class="admin-stat-label">Общо паркинги (${availableParkings} свободни)</div>
+                    <div class="admin-stat-label">${t('adminTotalParkingsLabel')} (${availableParkings} ${t('adminAvailableSuffix')})</div>
                 </div>
             </div>
             <div class="admin-stat-card" style="border-color:#e74c3c;">
@@ -169,7 +176,7 @@ function buildDashboard() {
                 </div>
                 <div>
                     <div class="admin-stat-number">${totalBookingsCount}</div>
-                    <div class="admin-stat-label">Общо резервации</div>
+                    <div class="admin-stat-label">${t('adminTotalBookingsLabel')}</div>
                 </div>
             </div>
             <div class="admin-stat-card" style="border-color:#f39c12;">
@@ -178,20 +185,20 @@ function buildDashboard() {
                 </div>
                 <div>
                     <div class="admin-stat-number">${totalRevenue.toFixed(2)} EUR</div>
-                    <div class="admin-stat-label">Общи приходи</div>
+                    <div class="admin-stat-label">${t('adminTotalRevenueLabel')}</div>
                 </div>
             </div>
         </div>
 
         <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:25px;">
             <div class="admin-chart-area">
-                <h3><i class="fas fa-chart-bar" style="color:#3498db;"></i> Резервации по дни (последна седмица)</h3>
+                <h3><i class="fas fa-chart-bar" style="color:#3498db;"></i> ${t('adminBookingsByDay')}</h3>
                 <div class="mini-bar-chart">${bars}</div>
                 <div style="margin-top:28px;"></div>
             </div>
             <div style="background:white;border-radius:12px;padding:25px;box-shadow:var(--shadow);">
                 <h3 style="margin:0 0 15px;font-size:1em;display:flex;align-items:center;gap:8px;">
-                    <i class="fas fa-circle-notch" style="color:#e74c3c;"></i> Статус паркинги
+                    <i class="fas fa-circle-notch" style="color:#e74c3c;"></i> ${t('adminParkingStatusTitle')}
                 </h3>
                 ${buildStatusDonut()}
             </div>
@@ -199,33 +206,33 @@ function buildDashboard() {
 
         <div style="background:white;border-radius:12px;box-shadow:var(--shadow);overflow:hidden;">
             <div style="padding:20px 25px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;gap:10px;">
-                <h3 style="margin:0;font-size:1em;"><i class="fas fa-bolt" style="color:#f39c12;"></i> Бързи действия</h3>
+                <h3 style="margin:0;font-size:1em;"><i class="fas fa-bolt" style="color:#f39c12;"></i> ${t('adminQuickActionsTitle')}</h3>
             </div>
             <div style="padding:20px;">
                 <div class="admin-quick-actions">
                     <button class="admin-quick-btn" onclick="adminSwitchSection('map'); setTimeout(()=>document.getElementById('adminAddPinBtn')&&document.getElementById('adminAddPinBtn').click(),300);" style="color:#8e44ad;">
                         <i class="fas fa-map-pin" style="color:#9b59b6;"></i>
-                        Добави паркинг
+                        ${t('adminAddParkingBtn')}
                     </button>
                     <button class="admin-quick-btn" onclick="adminSwitchSection('parkings');" style="color:#2980b9;">
                         <i class="fas fa-edit" style="color:#3498db;"></i>
-                        Паркинги
+                        ${t('adminParkingsBtn')}
                     </button>
                     <button class="admin-quick-btn" onclick="adminSwitchSection('users');" style="color:#1e8449;">
                         <i class="fas fa-user-cog" style="color:#27ae60;"></i>
-                        Потребители
+                        ${t('adminUsersBtn')}
                     </button>
                     <button class="admin-quick-btn" onclick="adminSwitchSection('bookings');" style="color:#c0392b;">
                         <i class="fas fa-calendar-times" style="color:#e74c3c;"></i>
-                        Всички резервации
+                        ${t('adminAllBookingsBtn')}
                     </button>
                     <button class="admin-quick-btn" onclick="adminExportData();" style="color:#7d6608;">
                         <i class="fas fa-download" style="color:#f39c12;"></i>
-                        Експорт данни
+                        ${t('adminExportBtn')}
                     </button>
                     <button class="admin-quick-btn" onclick="adminRefreshData();" style="color:#6e2fa0;">
                         <i class="fas fa-sync-alt" style="color:#9b59b6;"></i>
-                        Обнови данни
+                        ${t('adminRefreshBtn')}
                     </button>
                 </div>
             </div>
@@ -240,9 +247,9 @@ function buildStatusDonut() {
     const total = parkingData.length || 1;
 
     const items = [
-        { label: 'Свободни', count: available, color: '#27ae60' },
-        { label: 'Пълни', count: full, color: '#e74c3c' },
-        { label: 'Резервирани', count: reserved, color: '#3498db' }
+        { label: t('adminStatusFreeLabel'), count: available, color: '#27ae60' },
+        { label: t('adminStatusFullLabel'), count: full, color: '#e74c3c' },
+        { label: t('adminStatusReservedLabel'), count: reserved, color: '#3498db' }
     ];
 
     return items.map(item => `
@@ -264,12 +271,12 @@ function buildAdminMap() {
     return `
         <div class="admin-map-container">
             <div class="admin-map-toolbar">
-                <h3><i class="fas fa-map-marked-alt" style="color:#9b59b6;"></i> Интерактивна карта — добавяне на паркинги</h3>
+                <h3><i class="fas fa-map-marked-alt" style="color:#9b59b6;"></i> ${t('adminMapSectionTitle')}</h3>
                 <button class="btn-add-pin" id="adminAddPinBtn" onclick="toggleAdminPinMode()">
-                    <i class="fas fa-map-pin"></i> Добави паркинг с щракване
+                    <i class="fas fa-map-pin"></i> ${t('adminAddByClickBtn')}
                 </button>
                 <button class="btn-admin-add" onclick="openAdminAddParking()">
-                    <i class="fas fa-plus"></i> Ръчно добавяне
+                    <i class="fas fa-plus"></i> ${t('adminManualAddBtn')}
                 </button>
                 <span id="adminPinStatus" style="font-size:0.88em;color:var(--text-light);"></span>
             </div>
@@ -277,9 +284,8 @@ function buildAdminMap() {
         </div>
         <div style="margin-top:15px;padding:15px;background:var(--white);border-radius:12px;box-shadow:var(--shadow);font-size:0.9em;color:var(--text-light);border:1px solid var(--border-color);">
             <i class="fas fa-info-circle" style="color:#3498db;"></i>
-            <strong style="color:var(--text-dark);">Инструкции:</strong> Натиснете <em>"Добави паркинг с щракване"</em> за да влезете в режим на добавяне,
-            след което щракнете на желаното място на картата. Ще се отвори форма за попълване на детайлите.
-            <br>Съществуващите паркинги са показани с маркери: <span style="color:#27AE60;font-weight:700;">● Свободен</span>  <span style="color:#E74C3C;font-weight:700;">● Пълен</span>  <span style="color:#3498DB;font-weight:700;">● Резервиран</span>
+            <strong style="color:var(--text-dark);">${t('adminMapInstructionsTitle')}:</strong> ${t('adminMapInstructionsText')}
+            <br>${t('adminMapMarkersLegend')}: <span style="color:#27AE60;font-weight:700;">\u25cf ${t('adminStatusAvailableLabel')}</span>  <span style="color:#E74C3C;font-weight:700;">\u25cf ${t('adminStatusFullLabel2')}</span>  <span style="color:#3498DB;font-weight:700;">\u25cf ${t('adminStatusReservedLabel2')}</span>
         </div>
     `;
 }
@@ -348,16 +354,16 @@ function addAdminParkingMarker(parking) {
             <strong style="font-size:1em;">${parking.name}</strong>
             <div style="font-size:0.85em;color:#666;margin:4px 0;">${parking.location}</div>
             <div style="font-size:0.85em;margin:8px 0;display:flex;gap:12px;">
-                <span><strong>${parking.availableSpots}</strong>/${parking.totalSpots} места</span>
-                <span style="color:${color};font-weight:700;">${parking.status === 'available' ? 'Свободен' : parking.status === 'full' ? 'Пълен' : 'Резервиран'}</span>
+                <span><strong>${parking.availableSpots}</strong>/${parking.totalSpots} ${t('spots')}</span>
+                <span style="color:${color};font-weight:700;">${parking.status === 'available' ? t('adminStatusAvailableLabel') : parking.status === 'full' ? t('adminStatusFullLabel2') : t('adminStatusReservedLabel2')}</span>
             </div>
             <div style="font-size:0.82em;margin-bottom:10px;color:#555;">${parking.price}</div>
             <div style="display:flex;gap:6px;">
                 <button onclick="closeAllPopups(); openAdminEditParking(${parking.id});" style="flex:1;padding:6px;background:#3498db;color:white;border:none;border-radius:6px;cursor:pointer;font-size:0.82em;font-weight:600;">
-                    <i class="fas fa-edit"></i> Редактирай
+                    <i class="fas fa-edit"></i> ${t('adminEditBtnLabel')}
                 </button>
                 <button onclick="closeAllPopups(); adminDeleteParking(${parking.id});" style="flex:1;padding:6px;background:#e74c3c;color:white;border:none;border-radius:6px;cursor:pointer;font-size:0.82em;font-weight:600;">
-                    <i class="fas fa-trash"></i> Изтрий
+                    <i class="fas fa-trash"></i> ${t('adminDeleteBtnLabel')}
                 </button>
             </div>
         </div>
@@ -377,12 +383,12 @@ function toggleAdminPinMode() {
 
     if (adminAddPinMode) {
         btn.classList.add('active');
-        btn.innerHTML = '<i class="fas fa-times"></i> Отмени режима';
-        if (status) status.textContent = '📍 Щракнете на картата за да добавите паркинг';
+        btn.innerHTML = `<i class="fas fa-times"></i> ${t('adminCancelModeBtn')}`;
+        if (status) status.textContent = t('adminClickMapHint');
         if (mapEl) mapEl.classList.add('pin-mode');
     } else {
         btn.classList.remove('active');
-        btn.innerHTML = '<i class="fas fa-map-pin"></i> Добави паркинг с щракване';
+        btn.innerHTML = `<i class="fas fa-map-pin"></i> ${t('adminAddByClickBtn')}`;
         if (status) status.textContent = '';
         if (mapEl) mapEl.classList.remove('pin-mode');
     }
@@ -393,14 +399,14 @@ function openAdminAddParking(lat, lng) {
     adminAddPinMode = false;
     const btn = document.getElementById('adminAddPinBtn');
     const mapEl = document.getElementById('adminMapEl');
-    if (btn) { btn.classList.remove('active'); btn.innerHTML = '<i class="fas fa-map-pin"></i> Добави паркинг с щракване'; }
+    if (btn) { btn.classList.remove('active'); btn.innerHTML = `<i class="fas fa-map-pin"></i> ${t('adminAddByClickBtn')}`; }
     if (mapEl) mapEl.classList.remove('pin-mode');
 
     const modal = document.getElementById('adminEditModal');
     const title = document.getElementById('adminEditTitle');
     if (!modal) return;
 
-    title.innerHTML = '<i class="fas fa-plus-circle" style="color:#27ae60;"></i> Добави нов паркинг';
+    title.innerHTML = `<i class="fas fa-plus-circle" style="color:#27ae60;"></i> ${t('adminAddNewParking')}`;
     document.getElementById('adminEditId').value = '';
     document.getElementById('adminEditName').value = '';
     document.getElementById('adminEditLocation').value = '';
@@ -422,7 +428,7 @@ function openAdminEditParking(id) {
     const modal = document.getElementById('adminEditModal');
     if (!modal) return;
 
-    document.getElementById('adminEditTitle').innerHTML = '<i class="fas fa-edit" style="color:#3498db;"></i> Редактирай паркинг';
+    document.getElementById('adminEditTitle').innerHTML = `<i class="fas fa-edit" style="color:#3498db;"></i> ${t('adminEditParking')}`;
     document.getElementById('adminEditId').value = id;
     document.getElementById('adminEditName').value = parking.name;
     document.getElementById('adminEditLocation').value = parking.location;
@@ -548,17 +554,17 @@ function buildParkingsTable() {
     return `
         <div class="admin-table-wrapper">
             <div class="admin-table-header">
-                <h3><i class="fas fa-parking" style="color:#27ae60;"></i> Всички паркинги (${parkingData.length})</h3>
+                <h3><i class="fas fa-parking" style="color:#27ae60;"></i> ${t('adminAllParkingsLabel')} (${parkingData.length})</h3>
                 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                    <input type="text" class="admin-search-input" placeholder="Търси паркинг..." oninput="filterAdminParkings(this.value)" id="parkingSearchInput">
+                    <input type="text" class="admin-search-input" placeholder="${t('adminSearchParkingPlaceholder')}" oninput="filterAdminParkings(this.value)" id="parkingSearchInput">
                     <select onchange="filterAdminParkingsByStatus(this.value)" style="padding:9px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:0.9em;">
-                        <option value="">Всички статуси</option>
-                        <option value="available">Свободни</option>
-                        <option value="full">Пълни</option>
-                        <option value="reserved">Резервирани</option>
+                        <option value="">${t('adminAllStatusesOpt')}</option>
+                        <option value="available">${t('adminAvailableOpt')}</option>
+                        <option value="full">${t('adminFullOpt')}</option>
+                        <option value="reserved">${t('adminReservedOpt')}</option>
                     </select>
                     <button class="btn-admin-add" onclick="openAdminAddParking()">
-                        <i class="fas fa-plus"></i> Добави
+                        <i class="fas fa-plus"></i> ${t('adminAddBtnLabel')}
                     </button>
                 </div>
             </div>
@@ -566,14 +572,14 @@ function buildParkingsTable() {
                 <table class="admin-table" id="adminParkingTable">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Наименование</th>
-                            <th>Местоположение</th>
-                            <th>Места</th>
-                            <th>Цена/час</th>
-                            <th>Рейтинг</th>
-                            <th>Статус</th>
-                            <th>Действия</th>
+                            <th>${t('adminColId')}</th>
+                            <th>${t('adminColName')}</th>
+                            <th>${t('adminColLocation')}</th>
+                            <th>${t('adminColSpots')}</th>
+                            <th>${t('adminColPriceHour')}</th>
+                            <th>${t('adminColRating')}</th>
+                            <th>${t('adminColStatus')}</th>
+                            <th>${t('adminColActions')}</th>
                         </tr>
                     </thead>
                     <tbody id="adminParkingBody">
@@ -586,9 +592,9 @@ function buildParkingsTable() {
 }
 
 function buildParkingRows(data) {
-    if (!data.length) return `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light);">Няма паркинги</td></tr>`;
+    if (!data.length) return `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light);">${t('adminNoParkingsMsg')}</td></tr>`;
     return data.map(p => {
-        const statusMap = { available: 'Свободен', full: 'Пълен', reserved: 'Резервиран' };
+        const statusMap = { available: t('adminStatusAvailableLabel'), full: t('adminStatusFullLabel2'), reserved: t('adminStatusReservedLabel2') };
         return `
             <tr>
                 <td style="font-size:0.8em;color:var(--text-light);">#${p.id}</td>
@@ -601,7 +607,7 @@ function buildParkingRows(data) {
                 <td>
                     <div class="actions">
                         <button class="btn-admin-edit" onclick="openAdminEditParking(${p.id})">
-                            <i class="fas fa-edit"></i> Редактирай
+                            <i class="fas fa-edit"></i> ${t('adminEditBtnLabel')}
                         </button>
                         <button class="btn-admin-delete" onclick="adminDeleteParking(${p.id})">
                             <i class="fas fa-trash"></i>
@@ -637,21 +643,21 @@ function buildUsersTable() {
     return `
         <div class="admin-table-wrapper">
             <div class="admin-table-header">
-                <h3><i class="fas fa-users" style="color:#3498db;"></i> Всички потребители (${users.length})</h3>
-                <input type="text" class="admin-search-input" placeholder="Търси потребител..." oninput="filterAdminUsers(this.value)">
+                <h3><i class="fas fa-users" style="color:#3498db;"></i> ${t('adminAllUsersLabel')} (${users.length})</h3>
+                <input type="text" class="admin-search-input" placeholder="${t('adminSearchUserPlaceholder')}" oninput="filterAdminUsers(this.value)">
             </div>
             <div class="admin-table-scroll">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Потребител</th>
+                            <th>${t('adminColUser')}</th>
                             <th>Email</th>
-                            <th>Телефон</th>
-                            <th>Баланс</th>
-                            <th>Резервации</th>
-                            <th>Дата</th>
-                            <th>Роля</th>
-                            <th>Действия</th>
+                            <th>${t('adminColPhone')}</th>
+                            <th>${t('adminColBalance')}</th>
+                            <th>${t('adminColBookingsCount')}</th>
+                            <th>${t('adminColDate')}</th>
+                            <th>${t('adminColRole')}</th>
+                            <th>${t('adminColActions')}</th>
                         </tr>
                     </thead>
                     <tbody id="adminUsersBody">
@@ -664,7 +670,7 @@ function buildUsersTable() {
 }
 
 function buildUserRows(users) {
-    if (!users.length) return `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light);">Няма потребители</td></tr>`;
+    if (!users.length) return `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light);">${t('adminNoUsersMsg')}</td></tr>`;
     return users.map(u => {
         const initials = (u.name || 'U').substring(0, 2).toUpperCase();
         const isAdmin = u.isAdmin;
@@ -681,11 +687,11 @@ function buildUserRows(users) {
                 <td style="font-weight:600;color:#27ae60;">${(u.wallet || 0).toFixed(2)} EUR</td>
                 <td>${u.bookingCount || 0}</td>
                 <td style="font-size:0.82em;color:var(--text-light);">${u.createdAt || '—'}</td>
-                <td><span class="status-badge ${isAdmin ? 'admin' : 'available'}">${isAdmin ? 'Admin' : 'Потребител'}</span></td>
+                <td><span class="status-badge ${isAdmin ? 'admin' : 'available'}">${isAdmin ? 'Admin' : t('adminRoleUser')}</span></td>
                 <td>
                     <div class="actions">
                         <button class="btn-admin-edit" onclick="adminViewUser(${u.id})">
-                            <i class="fas fa-eye"></i> Преглед
+                            <i class="fas fa-eye"></i> ${t('adminViewBtnLabel')}
                         </button>
                         ${!isAdmin ? `<button class="btn-admin-delete" onclick="adminDeleteUser(${u.id})"><i class="fas fa-trash"></i></button>` : ''}
                     </div>
@@ -753,9 +759,9 @@ function buildBookingsOverview() {
             <td><strong>${b.userName || '—'}</strong><div style="font-size:0.8em;color:var(--text-light);">${b.userEmail || ''}</div></td>
             <td style="font-size:0.88em;">${b.parkingName || '—'}</td>
             <td style="font-size:0.85em;">${b.date || '—'}</td>
-            <td>${b.duration || '—'} ч.</td>
+            <td>${b.duration || '\u2014'} ${t('adminHourAbbr')}</td>
             <td style="font-weight:600;color:#27ae60;">${(b.totalPrice || 0).toFixed(2)} EUR</td>
-            <td><span class="status-badge ${b.status === 'Активна' ? 'available' : b.status === 'Отменена' ? 'full' : 'reserved'}">${b.status || '—'}</span></td>
+            <td><span class="status-badge ${b.status === 'Активна' ? 'available' : b.status === 'Отменена' ? 'full' : 'reserved'}">${b.status === 'Активна' ? t('adminActiveStatusLabel') : b.status === 'Завършена' ? t('adminCompletedStatusLabel') : b.status === 'Отменена' ? t('adminCancelledStatusLabel') : b.status || '\u2014'}</span></td>
         </tr>
     `).join('');
 
@@ -763,40 +769,40 @@ function buildBookingsOverview() {
         <div class="admin-stats-grid" style="margin-bottom:20px;">
             <div class="admin-stat-card" style="border-color:#3498db;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#3498db,#2980b9);"><i class="fas fa-calendar-check"></i></div>
-                <div><div class="admin-stat-number">${allBookings.length}</div><div class="admin-stat-label">Общо резервации</div></div>
+                <div><div class="admin-stat-number">${allBookings.length}</div><div class="admin-stat-label">${t('adminTotalBookingsLabel')}</div></div>
             </div>
             <div class="admin-stat-card" style="border-color:#27ae60;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#27ae60,#2ecc71);"><i class="fas fa-check-circle"></i></div>
-                <div><div class="admin-stat-number">${active}</div><div class="admin-stat-label">Активни</div></div>
+                <div><div class="admin-stat-number">${active}</div><div class="admin-stat-label">${t('adminActiveLabel')}</div></div>
             </div>
             <div class="admin-stat-card" style="border-color:#9b59b6;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#9b59b6,#8e44ad);"><i class="fas fa-flag-checkered"></i></div>
-                <div><div class="admin-stat-number">${completed}</div><div class="admin-stat-label">Завършени</div></div>
+                <div><div class="admin-stat-number">${completed}</div><div class="admin-stat-label">${t('adminCompletedLabel')}</div></div>
             </div>
             <div class="admin-stat-card" style="border-color:#e74c3c;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#e74c3c,#c0392b);"><i class="fas fa-times-circle"></i></div>
-                <div><div class="admin-stat-number">${cancelled}</div><div class="admin-stat-label">Отменени</div></div>
+                <div><div class="admin-stat-number">${cancelled}</div><div class="admin-stat-label">${t('adminCancelledLabel')}</div></div>
             </div>
         </div>
 
         <div class="admin-table-wrapper">
             <div class="admin-table-header">
-                <h3><i class="fas fa-list-alt" style="color:#e74c3c;"></i> Всички резервации</h3>
+                <h3><i class="fas fa-list-alt" style="color:#e74c3c;"></i> ${t('adminAllBookingsTitle')}</h3>
             </div>
             <div class="admin-table-scroll">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Потребител</th>
-                            <th>Паркинг</th>
-                            <th>Дата</th>
-                            <th>Продължителност</th>
-                            <th>Сума</th>
-                            <th>Статус</th>
+                            <th>${t('adminColUser')}</th>
+                            <th>${t('adminColParking')}</th>
+                            <th>${t('adminColDate')}</th>
+                            <th>${t('adminColDuration')}</th>
+                            <th>${t('adminColAmount')}</th>
+                            <th>${t('adminColStatus')}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${rows || `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-light);">Няма резервации</td></tr>`}
+                        ${rows || `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-light);">${t('adminNoBookingsMsg')}</td></tr>`}
                     </tbody>
                 </table>
             </div>
@@ -828,37 +834,36 @@ function buildRevenueSection() {
         <div class="admin-stats-grid" style="margin-bottom:20px;">
             <div class="admin-stat-card" style="border-color:#f39c12;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#f39c12,#e67e22);"><i class="fas fa-coins"></i></div>
-                <div><div class="admin-stat-number">${totalRevenue.toFixed(2)} EUR</div><div class="admin-stat-label">Общи приходи от паркиране</div></div>
+                <div><div class="admin-stat-number">${totalRevenue.toFixed(2)} EUR</div><div class="admin-stat-label">${t('adminRevenueLabel')}</div></div>
             </div>
             <div class="admin-stat-card" style="border-color:#9b59b6;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#9b59b6,#8e44ad);"><i class="fas fa-receipt"></i></div>
-                <div><div class="admin-stat-number">${totalBookingsCount}</div><div class="admin-stat-label">Платени резервации</div></div>
+                <div><div class="admin-stat-number">${totalBookingsCount}</div><div class="admin-stat-label">${t('adminPaidBookings')}</div></div>
             </div>
             <div class="admin-stat-card" style="border-color:#1abc9c;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#1abc9c,#16a085);"><i class="fas fa-calculator"></i></div>
-                <div><div class="admin-stat-number">${avgPerBooking.toFixed(2)} EUR</div><div class="admin-stat-label">Средна стойност резервация</div></div>
+                <div><div class="admin-stat-number">${avgPerBooking.toFixed(2)} EUR</div><div class="admin-stat-label">${t('adminAvgBookingValue')}</div></div>
             </div>
         </div>
 
         <div class="admin-table-wrapper">
             <div class="admin-table-header">
-                <h3><i class="fas fa-trophy" style="color:#f39c12;"></i> Топ паркинги по приходи</h3>
+                <h3><i class="fas fa-trophy" style="color:#f39c12;"></i> ${t('adminTopParkingsTitle')}</h3>
             </div>
             <div class="admin-table-scroll">
                 <table class="admin-table">
-                    <thead><tr><th>Паркинг</th><th>Приходи</th><th>Дял</th></tr></thead>
+                    <thead><tr><th>${t('adminColName')}</th><th>${t('adminColRevenue')}</th><th>${t('adminColShare')}</th></tr></thead>
                     <tbody>
-                        ${topRows || `<tr><td colspan="3" style="text-align:center;padding:30px;color:var(--text-light);">Няма данни за приходи</td></tr>`}
+                        ${topRows || `<tr><td colspan="3" style="text-align:center;padding:30px;color:var(--text-light);">${t('adminNoRevenueMsg')}</td></tr>`}
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div style="margin-top:20px;padding:20px;background:white;border-radius:12px;box-shadow:var(--shadow);">
-            <h3 style="margin:0 0 15px;font-size:1em;"><i class="fas fa-info-circle" style="color:#3498db;"></i> Информация</h3>
+            <h3 style="margin:0 0 15px;font-size:1em;"><i class="fas fa-info-circle" style="color:#3498db;"></i> ${t('adminInfoTitle')}</h3>
             <p style="font-size:0.9em;color:var(--text-light);margin:0;">
-                Приходите се изчисляват на базата на завършените транзакции от всички регистрирани потребители.
-                Данните се обновяват при всяко влизане в административния панел.
+                ${t('adminInfoText')}
             </p>
         </div>
     `;

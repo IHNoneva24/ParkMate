@@ -422,7 +422,161 @@ const translations = {
         maxCompare: 'Можете да сравнявате максимум 3 паркинга!',
         addedToCompare: 'Добавено за сравнение!',
         removedFromCompare: 'Премахнато от сравнение!',
-        compareCleared: 'Сравнението е изчистено!'
+        compareCleared: 'Сравнението е изчистено!',
+        // Status texts
+        statusAvailable: 'Свободен',
+        statusFull: 'Пълен',
+        statusReserved: 'Резервиран',
+        // Booking form
+        bookingFor: 'Резервация за',
+        carInfoLbl: 'Информация за колата',
+        fromTime: 'От час',
+        toTime: 'До час',
+        balance: 'Баланс',
+        // Parking details modal
+        selectSpotTitle: 'Изберете паркомясто',
+        spotFree: 'Свободно',
+        spotOccupied: 'Заето',
+        spotSelected: 'Избрано',
+        // History
+        noCompletedBookings: 'Все още нямаш завършени резервации',
+        // Statistics chart
+        expensesByMonth: 'Разходи по месеци',
+        february: 'Февруари',
+        january: 'Януари',
+        december: 'Декември',
+        avgMonthlyExpense: 'Средна месечна разход:',
+        parkingOccupancy: 'Заетост на паркингите',
+        occupancyFree: 'Свободен (< 50%)',
+        occupancyMedium: 'Среден (50-80%)',
+        occupancyFull: 'Пълен (> 80%)',
+        refresh: 'Обнови',
+        // Reviews
+        writeReviewTitle: 'Напиши отзив',
+        ratingLabel: 'Рейтинг (1-5 звезди)',
+        reviewPlaceholder: 'Напиши своето мнение за паркинга...',
+        reviewBtnLabel: 'Напиши отзив',
+        reviewFrom: 'от',
+        // Booking list labels
+        dateLabel: 'Дата',
+        durationLabel: 'Продължителност',
+        priceLabel: 'Цена',
+        timeToEnd: 'Време до края',
+        // Error messages
+        endTimeError: 'Крайният час трябва да е след началния!',
+        noFundsError: 'Нямаш достатъчно средства! Добави средства в портфейла.',
+        // Wallet static labels
+        yourBalanceLabel: 'Ваш баланс',
+        accountActiveStatus: 'Актуално',
+        accountActiveDesc: 'Вашата сметка е активна и готова за ползване',
+        transHistoryTitle: 'История на преводи',
+        // History stat labels
+        completedParkings: 'Завършени паркирания',
+        // Stat card descriptions (statistics section)
+        madeBookingsDesc: 'Брой направени резервации',
+        spentOnParkingDesc: 'Вложено в паркиране',
+        hoursSpentDesc: 'Брой изхарчени часове',
+        onParkingsDesc: 'На посещаваните паркинги',
+        // Admin Panel
+        adminPanelTitle: 'Административен Панел',
+        adminPanelDesc: 'Управлявайте паркингите, потребителите и системата',
+        adminBadge: 'Администратор',
+        adminTabDashboard: 'Табло',
+        adminTabMap: 'Карта & Паркинги',
+        adminTabParkings: 'Паркинги',
+        adminTabUsers: 'Потребители',
+        adminTabBookings: 'Резервации',
+        adminTabRevenue: 'Приходи',
+        adminRegisteredUsers: 'Регистрирани потребители',
+        adminTotalParkingsLabel: 'Общо паркинги',
+        adminAvailableSuffix: 'свободни',
+        adminTotalBookingsLabel: 'Общо резервации',
+        adminTotalRevenueLabel: 'Общи приходи',
+        adminBookingsByDay: 'Резервации по дни (последна седмица)',
+        adminParkingStatusTitle: 'Статус паркинги',
+        adminStatusFreeLabel: 'Свободни',
+        adminStatusFullLabel: 'Пълни',
+        adminStatusReservedLabel: 'Резервирани',
+        adminQuickActionsTitle: 'Бързи действия',
+        adminAddParkingBtn: 'Добави паркинг',
+        adminParkingsBtn: 'Паркинги',
+        adminUsersBtn: 'Потребители',
+        adminAllBookingsBtn: 'Всички резервации',
+        adminExportBtn: 'Експорт данни',
+        adminRefreshBtn: 'Обнови данни',
+        adminMapSectionTitle: 'Интерактивна карта — добавяне на паркинги',
+        adminAddByClickBtn: 'Добави паркинг с щракване',
+        adminManualAddBtn: 'Ръчно добавяне',
+        adminCancelModeBtn: 'Отмени режима',
+        adminClickMapHint: '📍 Щракнете на картата за да добавите паркинг',
+        adminMapInstructionsTitle: 'Инструкции',
+        adminMapInstructionsText: 'Натиснете "Добави паркинг с щракване" за да влезете в режим на добавяне, след което щракнете на желаното място на картата. Ще се отвори форма за попълване на детайлите.',
+        adminMapMarkersLegend: 'Съществуващите паркинги са показани с маркери',
+        adminAllParkingsLabel: 'Всички паркинги',
+        adminSearchParkingPlaceholder: 'Търси паркинг...',
+        adminAllStatusesOpt: 'Всички статуси',
+        adminAvailableOpt: 'Свободни',
+        adminFullOpt: 'Пълни',
+        adminReservedOpt: 'Резервирани',
+        adminAddBtnLabel: 'Добави',
+        adminColId: 'ID',
+        adminColName: 'Наименование',
+        adminColLocation: 'Местоположение',
+        adminColSpots: 'Места',
+        adminColPriceHour: 'Цена/час',
+        adminColRating: 'Рейтинг',
+        adminColStatus: 'Статус',
+        adminColActions: 'Действия',
+        adminEditBtnLabel: 'Редактирай',
+        adminDeleteBtnLabel: 'Изтрий',
+        adminNoParkingsMsg: 'Няма паркинги',
+        adminStatusAvailableLabel: 'Свободен',
+        adminStatusFullLabel2: 'Пълен',
+        adminStatusReservedLabel2: 'Резервиран',
+        adminAllUsersLabel: 'Всички потребители',
+        adminSearchUserPlaceholder: 'Търси потребител...',
+        adminColUser: 'Потребител',
+        adminColPhone: 'Телефон',
+        adminColBalance: 'Баланс',
+        adminColBookingsCount: 'Резервации',
+        adminColDate: 'Дата',
+        adminColRole: 'Роля',
+        adminRoleUser: 'Потребител',
+        adminNoUsersMsg: 'Няма потребители',
+        adminViewBtnLabel: 'Преглед',
+        adminActiveLabel: 'Активни',
+        adminCompletedLabel: 'Завършени',
+        adminCancelledLabel: 'Отменени',
+        adminAllBookingsTitle: 'Всички резервации',
+        adminColParking: 'Паркинг',
+        adminColDuration: 'Продължителност',
+        adminColAmount: 'Сума',
+        adminNoBookingsMsg: 'Няма резервации',
+        adminHourAbbr: 'ч.',
+        adminActiveStatusLabel: 'Активна',
+        adminCompletedStatusLabel: 'Завършена',
+        adminCancelledStatusLabel: 'Отменена',
+        adminRevenueLabel: 'Общи приходи от паркиране',
+        adminPaidBookings: 'Платени резервации',
+        adminAvgBookingValue: 'Средна стойност резервация',
+        adminTopParkingsTitle: 'Топ паркинги по приходи',
+        adminColRevenue: 'Приходи',
+        adminColShare: 'Дял',
+        adminNoRevenueMsg: 'Няма данни за приходи',
+        adminInfoTitle: 'Информация',
+        adminInfoText: 'Приходите се изчисляват на базата на завършените транзакции от всички регистрирани потребители. Данните се обновяват при всяко влизане в административния панел.',
+        adminAddNewParking: 'Добави нов паркинг',
+        adminEditParking: 'Редактирай паркинг',
+        adminModalNameLabel: 'Наименование',
+        adminModalLocationLabel: 'Местоположение',
+        adminModalTotalSpotsLabel: 'Общо места',
+        adminModalAvailableSpotsLabel: 'Свободни места',
+        adminModalPriceLabel: 'Цена (EUR/час)',
+        adminModalStatusLabel: 'Статус',
+        adminModalDescriptionLabel: 'Описание',
+        adminModalLatLabel: 'Ширина (lat)',
+        adminModalLngLabel: 'Дължина (lng)',
+        adminModalSaveBtn: 'Запази'
     },
     
     en: {
@@ -681,9 +835,167 @@ const translations = {
         maxCompare: 'You can compare up to 3 parkings!',
         addedToCompare: 'Added to compare!',
         removedFromCompare: 'Removed from compare!',
-        compareCleared: 'Compare cleared!'
+        compareCleared: 'Compare cleared!',
+        // Status texts
+        statusAvailable: 'Available',
+        statusFull: 'Full',
+        statusReserved: 'Reserved',
+        // Booking form
+        bookingFor: 'Booking for',
+        carInfoLbl: 'Car Information',
+        fromTime: 'From',
+        toTime: 'To',
+        balance: 'Balance',
+        // Parking details modal
+        selectSpotTitle: 'Select a Spot',
+        spotFree: 'Free',
+        spotOccupied: 'Occupied',
+        spotSelected: 'Selected',
+        // History
+        noCompletedBookings: 'No completed bookings yet',
+        // Statistics chart
+        expensesByMonth: 'Expenses by Month',
+        february: 'February',
+        january: 'January',
+        december: 'December',
+        avgMonthlyExpense: 'Average monthly expense:',
+        parkingOccupancy: 'Parking Occupancy',
+        occupancyFree: 'Available (< 50%)',
+        occupancyMedium: 'Medium (50-80%)',
+        occupancyFull: 'Full (> 80%)',
+        refresh: 'Refresh',
+        // Reviews
+        writeReviewTitle: 'Write a Review',
+        ratingLabel: 'Rating (1-5 stars)',
+        reviewPlaceholder: 'Write your opinion about the parking...',
+        reviewBtnLabel: 'Write a Review',
+        reviewFrom: 'by',
+        // Booking list labels
+        dateLabel: 'Date',
+        durationLabel: 'Duration',
+        priceLabel: 'Price',
+        timeToEnd: 'Time remaining',
+        // Error messages
+        endTimeError: 'End time must be after start time!',
+        noFundsError: 'Not enough funds! Add funds to your wallet.',
+        // Wallet static labels
+        yourBalanceLabel: 'Your Balance',
+        accountActiveStatus: 'Active',
+        accountActiveDesc: 'Your account is active and ready to use',
+        transHistoryTitle: 'Transaction History',
+        // History stat labels
+        completedParkings: 'Completed Parkings',
+        // Stat card descriptions (statistics section)
+        madeBookingsDesc: 'Number of bookings made',
+        spentOnParkingDesc: 'Invested in parking',
+        hoursSpentDesc: 'Hours spent',
+        onParkingsDesc: 'Of visited parkings',
+        // Admin Panel
+        adminPanelTitle: 'Admin Panel',
+        adminPanelDesc: 'Manage parkings, users and the system',
+        adminBadge: 'Administrator',
+        adminTabDashboard: 'Dashboard',
+        adminTabMap: 'Map & Parkings',
+        adminTabParkings: 'Parkings',
+        adminTabUsers: 'Users',
+        adminTabBookings: 'Bookings',
+        adminTabRevenue: 'Revenue',
+        adminRegisteredUsers: 'Registered Users',
+        adminTotalParkingsLabel: 'Total Parkings',
+        adminAvailableSuffix: 'available',
+        adminTotalBookingsLabel: 'Total Bookings',
+        adminTotalRevenueLabel: 'Total Revenue',
+        adminBookingsByDay: 'Bookings by Day (last week)',
+        adminParkingStatusTitle: 'Parking Status',
+        adminStatusFreeLabel: 'Available',
+        adminStatusFullLabel: 'Full',
+        adminStatusReservedLabel: 'Reserved',
+        adminQuickActionsTitle: 'Quick Actions',
+        adminAddParkingBtn: 'Add Parking',
+        adminParkingsBtn: 'Parkings',
+        adminUsersBtn: 'Users',
+        adminAllBookingsBtn: 'All Bookings',
+        adminExportBtn: 'Export Data',
+        adminRefreshBtn: 'Refresh Data',
+        adminMapSectionTitle: 'Interactive Map — Add Parkings',
+        adminAddByClickBtn: 'Add Parking by Click',
+        adminManualAddBtn: 'Manual Add',
+        adminCancelModeBtn: 'Cancel Mode',
+        adminClickMapHint: '📍 Click on the map to add a parking',
+        adminMapInstructionsTitle: 'Instructions',
+        adminMapInstructionsText: 'Press "Add Parking by Click" to enter add mode, then click the desired location on the map. A form will open to fill in the details.',
+        adminMapMarkersLegend: 'Existing parkings are shown with markers',
+        adminAllParkingsLabel: 'All Parkings',
+        adminSearchParkingPlaceholder: 'Search parking...',
+        adminAllStatusesOpt: 'All Statuses',
+        adminAvailableOpt: 'Available',
+        adminFullOpt: 'Full',
+        adminReservedOpt: 'Reserved',
+        adminAddBtnLabel: 'Add',
+        adminColId: 'ID',
+        adminColName: 'Name',
+        adminColLocation: 'Location',
+        adminColSpots: 'Spots',
+        adminColPriceHour: 'Price/Hour',
+        adminColRating: 'Rating',
+        adminColStatus: 'Status',
+        adminColActions: 'Actions',
+        adminEditBtnLabel: 'Edit',
+        adminDeleteBtnLabel: 'Delete',
+        adminNoParkingsMsg: 'No parkings',
+        adminStatusAvailableLabel: 'Available',
+        adminStatusFullLabel2: 'Full',
+        adminStatusReservedLabel2: 'Reserved',
+        adminAllUsersLabel: 'All Users',
+        adminSearchUserPlaceholder: 'Search user...',
+        adminColUser: 'User',
+        adminColPhone: 'Phone',
+        adminColBalance: 'Balance',
+        adminColBookingsCount: 'Bookings',
+        adminColDate: 'Date',
+        adminColRole: 'Role',
+        adminRoleUser: 'User',
+        adminNoUsersMsg: 'No users',
+        adminViewBtnLabel: 'View',
+        adminActiveLabel: 'Active',
+        adminCompletedLabel: 'Completed',
+        adminCancelledLabel: 'Cancelled',
+        adminAllBookingsTitle: 'All Bookings',
+        adminColParking: 'Parking',
+        adminColDuration: 'Duration',
+        adminColAmount: 'Amount',
+        adminNoBookingsMsg: 'No bookings',
+        adminHourAbbr: 'h.',
+        adminActiveStatusLabel: 'Active',
+        adminCompletedStatusLabel: 'Completed',
+        adminCancelledStatusLabel: 'Cancelled',
+        adminRevenueLabel: 'Total Revenue from Parking',
+        adminPaidBookings: 'Paid Bookings',
+        adminAvgBookingValue: 'Average Booking Value',
+        adminTopParkingsTitle: 'Top Parkings by Revenue',
+        adminColRevenue: 'Revenue',
+        adminColShare: 'Share',
+        adminNoRevenueMsg: 'No revenue data',
+        adminInfoTitle: 'Information',
+        adminInfoText: 'Revenue is calculated based on completed transactions from all registered users. Data is updated every time you enter the admin panel.',
+        adminAddNewParking: 'Add New Parking',
+        adminEditParking: 'Edit Parking',
+        adminModalNameLabel: 'Name',
+        adminModalLocationLabel: 'Location',
+        adminModalTotalSpotsLabel: 'Total Spots',
+        adminModalAvailableSpotsLabel: 'Available Spots',
+        adminModalPriceLabel: 'Price (EUR/hour)',
+        adminModalStatusLabel: 'Status',
+        adminModalDescriptionLabel: 'Description',
+        adminModalLatLabel: 'Latitude (lat)',
+        adminModalLngLabel: 'Longitude (lng)',
+        adminModalSaveBtn: 'Save'
     }
 };
+
+function t(key) {
+    return (translations[currentLanguage] || translations['bg'])[key] || key;
+}
 function updatePageLanguage() {
     const t = translations[currentLanguage] || translations['bg'];
     
@@ -960,12 +1272,100 @@ function updatePageLanguage() {
     const sendBtn = document.querySelector('.contact-form button[type="submit"]');
     if (sendBtn) sendBtn.innerHTML = `<i class="fas fa-send"></i> ${t.send}`;
     
-    // 19. FAQ
-    // Това ще се обнови при loadFAQ()
-    
-    // 20. News
-    // Това ще се обнови при loadNews()
-    
+    // 19. FAQ / News - re-rendered by their load functions below
+
+    // 20. Statistics stat-card labels (static HTML)
+    const statContents = document.querySelectorAll('#statistics .stat-content');
+    if (statContents.length >= 4) {
+        const statLabelKeys  = [t.totalBookings, t.totalSpent, t.totalHoursParking, t.avgRating];
+        const statDescKeys   = [t.madeBookingsDesc, t.spentOnParkingDesc, t.hoursSpentDesc, t.onParkingsDesc];
+        statContents.forEach((sc, i) => {
+            const label = sc.querySelector('.stat-label');
+            if (label) label.textContent = statLabelKeys[i];
+            const desc = sc.children[2];
+            if (desc) desc.textContent = statDescKeys[i];
+        });
+    }
+
+    // 21. Wallet static labels
+    const balanceLabelEl = document.querySelector('.balance-label');
+    if (balanceLabelEl) balanceLabelEl.innerHTML = `<i class="fas fa-piggy-bank"></i> ${t.yourBalanceLabel}`;
+    const addFundsBtnEl = document.querySelector('.balance-card .btn-primary');
+    if (addFundsBtnEl) addFundsBtnEl.innerHTML = `<i class="fas fa-plus"></i> ${t.addFunds}`;
+    const walletActiveStatus = document.querySelector('#wallet [style*="success-color"][style*="font-weight"]');
+    if (walletActiveStatus) walletActiveStatus.innerHTML = `<i class="fas fa-check-circle"></i> ${t.accountActiveStatus}`;
+    const walletActiveDesc = document.querySelector('#wallet [style*="success-color"] + div, #wallet [style*="border-left"] [style*="0.9em"]');
+    if (walletActiveDesc) walletActiveDesc.textContent = t.accountActiveDesc;
+    const walletH3 = document.querySelector('#wallet h3[style*="margin: 0"]');
+    if (walletH3) {
+        const icon = walletH3.querySelector('i');
+        if (icon) walletH3.innerHTML = `<i class="${icon.className}"></i> ${t.transHistoryTitle}`;
+    }
+
+    // 22. History stat labels (static HTML)
+    const completedCountEl = document.getElementById('completedCount');
+    if (completedCountEl && completedCountEl.previousElementSibling) {
+        completedCountEl.previousElementSibling.textContent = t.completedParkings;
+    }
+    const historyRatingEl = document.getElementById('historyRating');
+    if (historyRatingEl && historyRatingEl.previousElementSibling) {
+        historyRatingEl.previousElementSibling.textContent = t.avgHistoryRating;
+    }
+
+    // 23. Reviews section static elements
+    const reviewsH3 = document.querySelector('#reviews h3');
+    if (reviewsH3) {
+        const icon = reviewsH3.querySelector('i');
+        if (icon) reviewsH3.innerHTML = `<i class="${icon.className}"></i> ${t.appFeedback}`;
+    }
+    const feedbackTxt = document.getElementById('feedbackText');
+    if (feedbackTxt) feedbackTxt.placeholder = t.shareFeedback;
+    const feedbackSubmit = document.querySelector('#feedbackForm button[type="submit"]');
+    if (feedbackSubmit) feedbackSubmit.innerHTML = `<i class="fas fa-paper-plane"></i> ${t.sendFeedback}`;
+    const writeReviewBtnEl = document.querySelector('#reviews > div[style*="margin-bottom"] > button.btn-primary');
+    if (writeReviewBtnEl) writeReviewBtnEl.innerHTML = `<i class="fas fa-pen"></i> ${t.writeReview}`;
+
+    // 24. Re-render all dynamically generated sections
+    if (typeof loadAllParkings === 'function' && typeof parkingData !== 'undefined') loadAllParkings();
+    if (typeof loadBookings   === 'function' && typeof bookings    !== 'undefined') loadBookings();
+    if (typeof loadWallet     === 'function' && typeof wallet      !== 'undefined') loadWallet();
+    if (typeof loadStatistics === 'function' && typeof bookings    !== 'undefined') loadStatistics();
+    if (typeof loadHistory    === 'function' && typeof bookings    !== 'undefined') loadHistory();
+    if (typeof loadReviews    === 'function') loadReviews();
+
+    // 25. Re-render admin panel if it is loaded (uses cached data, no new API calls)
+    if (typeof loadAdminPanel === 'function' && document.getElementById('adminPanelContent')?.children.length) {
+        loadAdminPanel(true);
+    }
+
+    // 26. Update admin modal labels
+    const adminModalNameLbl = document.getElementById('adminModalNameLbl');
+    if (adminModalNameLbl) adminModalNameLbl.textContent = t.adminModalNameLabel;
+    const adminModalLocationLbl = document.getElementById('adminModalLocationLbl');
+    if (adminModalLocationLbl) adminModalLocationLbl.textContent = t.adminModalLocationLabel;
+    const adminModalTotalSpotsLbl = document.getElementById('adminModalTotalSpotsLbl');
+    if (adminModalTotalSpotsLbl) adminModalTotalSpotsLbl.textContent = t.adminModalTotalSpotsLabel;
+    const adminModalAvailableSpotsLbl = document.getElementById('adminModalAvailableSpotsLbl');
+    if (adminModalAvailableSpotsLbl) adminModalAvailableSpotsLbl.textContent = t.adminModalAvailableSpotsLabel;
+    const adminModalPriceLbl = document.getElementById('adminModalPriceLbl');
+    if (adminModalPriceLbl) adminModalPriceLbl.textContent = t.adminModalPriceLabel;
+    const adminModalStatusLbl = document.getElementById('adminModalStatusLbl');
+    if (adminModalStatusLbl) adminModalStatusLbl.textContent = t.adminModalStatusLabel;
+    const adminEditStatusEl = document.getElementById('adminEditStatus');
+    if (adminEditStatusEl && adminEditStatusEl.options.length >= 3) {
+        adminEditStatusEl.options[0].text = t.adminStatusAvailableLabel;
+        adminEditStatusEl.options[1].text = t.adminStatusFullLabel2;
+        adminEditStatusEl.options[2].text = t.adminStatusReservedLabel2;
+    }
+    const adminModalDescriptionLbl = document.getElementById('adminModalDescriptionLbl');
+    if (adminModalDescriptionLbl) adminModalDescriptionLbl.textContent = t.adminModalDescriptionLabel;
+    const adminModalLatLbl = document.getElementById('adminModalLatLbl');
+    if (adminModalLatLbl) adminModalLatLbl.textContent = t.adminModalLatLabel;
+    const adminModalLngLbl = document.getElementById('adminModalLngLbl');
+    if (adminModalLngLbl) adminModalLngLbl.textContent = t.adminModalLngLabel;
+    const adminModalSaveBtn = document.getElementById('adminModalSaveBtn');
+    if (adminModalSaveBtn) adminModalSaveBtn.innerHTML = `<i class="fas fa-save"></i> ${t.adminModalSaveBtn}`;
+
     // Запазваме избрания език
     localStorage.setItem('currentLanguage', currentLanguage);
 }
