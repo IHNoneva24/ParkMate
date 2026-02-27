@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="css/reviews.css">
     <link rel="stylesheet" href="css/wallet.css">
     <link rel="stylesheet" href="css/history.css">
-    <link rel="stylesheet" href="css/news.css">
+    <!-- news removed per user request -->
     <link rel="stylesheet" href="css/faq.css">
     <link rel="stylesheet" href="css/contact.css">
     <link rel="stylesheet" href="css/settings.css">
@@ -81,7 +81,7 @@
                         <input type="tel" id="registerPhone" required placeholder="+359888123456">
                     </div>
                     <div class="form-group">
-                        <label for="registerPassword"><i class="fas fa-lock"></i> Пароля</label>
+                        <label for="registerPassword"><i class="fas fa-lock"></i> Паролa</label>
                         <input type="password" id="registerPassword" required placeholder="Създай пароля">
                     </div>
                     <div class="form-group">
@@ -152,7 +152,7 @@
                     </a>
                     <a href="#" onclick="switchTab('reviews')" class="nav-item" data-tab="reviews">
                         <i class="fas fa-star"></i>
-                        <span>Отзив</span>
+                        <span>Отзиви</span>
                     </a>
                     <a href="#" onclick="switchTab('wallet')" class="nav-item" data-tab="wallet">
                         <i class="fas fa-wallet"></i>
@@ -164,10 +164,7 @@
                     </a>
 
                     <div class="nav-section-title">ИНФОРМАЦИЯ</div>
-                    <a href="#" onclick="switchTab('news')" class="nav-item" data-tab="news">
-                        <i class="fas fa-newspaper"></i>
-                        <span>Новини</span>
-                    </a>
+                    <!-- News nav removed -->
                     <a href="#" onclick="switchTab('faq')" class="nav-item" data-tab="faq">
                         <i class="fas fa-question-circle"></i>
                         <span>ЧЗВ</span>
@@ -460,16 +457,7 @@
                     <div id="historyContainer" class="bookings-list"></div>
                 </section>
 
-                <!-- News Tab -->
-                <section id="news" class="tab-content">
-                    <div class="section-header">
-                        <h2><i class="fas fa-newspaper"></i> Новини за Бургас</h2>
-                        <p style="color: var(--text-light); margin-top: 5px;">Запознайте се с последните новини за паркирането</p>
-                    </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">
-                        <div id="newsContainer"></div>
-                    </div>
-                </section>
+                <!-- News tab removed -->
 
                 <!-- FAQ Tab -->
                 <section id="faq" class="tab-content">
@@ -660,7 +648,7 @@
     <script src="js/reviews.js"></script>
     <script src="js/wallet.js"></script>
     <script src="js/history.js"></script>
-    <script src="js/news.js"></script>
+    <!-- news script removed per user request -->
     <script src="js/faq.js"></script>
     <script src="js/contact.js"></script>
     <script src="js/settings.js"></script>

@@ -123,8 +123,6 @@ function switchTab(tabName) {
         loadWallet();
     } else if (tabName === 'history') {
         loadHistory();
-    } else if (tabName === 'news') {
-        loadNews();
     } else if (tabName === 'faq') {
         loadFAQ();
     } else if (tabName === 'contact') {
@@ -229,7 +227,7 @@ const translations = {
         reserve: 'Резервирай',
         freeSpots: 'Свободни места',
         perHour: 'На час',
-        reviews: 'Отзива',
+    reviews: 'Отзиви',
         
         // Favorites Section
         myFavorites: 'Любимите ми паркоместа',
@@ -742,7 +740,6 @@ function updatePageLanguage() {
             'reviews': 'reviews',
             'wallet': 'wallet',
             'history': 'history',
-            'news': 'news',
             'faq': 'faq',
             'contact': 'contact',
             'settings': 'settings'
@@ -769,11 +766,9 @@ function updatePageLanguage() {
         { selector: '#reviews p', key: 'reviewDesc' },
         { selector: '#wallet h2', key: 'myWallet' },
         { selector: '#wallet p', key: 'walletDesc' },
-        { selector: '#history h2', key: 'bookingHistory' },
-        { selector: '#history p', key: 'allCompleted' },
-        { selector: '#news h2', key: 'newsTitle' },
-        { selector: '#news p', key: 'newsDesc' },
-        { selector: '#faq h2', key: 'faqTitle' },
+    { selector: '#history h2', key: 'bookingHistory' },
+    { selector: '#history p', key: 'allCompleted' },
+    { selector: '#faq h2', key: 'faqTitle' },
         { selector: '#faq p', key: 'faqDesc' },
         { selector: '#contact h2', key: 'contactTitle' },
         { selector: '#contact p', key: 'contactDesc' },

@@ -19,8 +19,39 @@ function handleLogin(event) {
         wallet = user.wallet || 50.00;
         transactions = user.transactions || [];
         saveToLocalStorage();
-        showApp();
-        showNotification('Добре дошъл, ' + user.name + '!', 'success');
+    // Set language to Bulgarian and request location before showing the app so the browser prompts early
+    currentLanguage = 'bg';
+    // update page language immediately if function exists
+    if (typeof updatePageLanguage === 'function') updatePageLanguage();
+        
+        if (typeof getCurrentLocation === 'function') {
+            getCurrentLocation()
+                .then(async (location) => {
+                    try {
+                        // update marker first
+                        if (typeof updateUserLocationOnMap === 'function') updateUserLocationOnMap();
+                        // attempt to fetch nearby real parkings and merge into dataset
+                        if (typeof fetchNearbyParkings === 'function') {
+                            await fetchNearbyParkings(location.lat, location.lng, 2500, 60);
+                        }
+                    } catch (e) {
+                        console.warn('Post-login location handling failed', e);
+                    }
+                })
+                .catch(err => {
+                    console.warn('Could not get location at login:', err);
+                })
+                .finally(() => {
+                    // show the app regardless of geolocation outcome
+                    showApp();
+                    if (typeof populateNavigationSelect === 'function') populateNavigationSelect();
+                    showNotification('Добре дошъл, ' + user.name + '!', 'success');
+                });
+        } else {
+            showApp();
+            if (typeof populateNavigationSelect === 'function') populateNavigationSelect();
+            showNotification('Добре дошъл, ' + user.name + '!', 'success');
+        }
     } else {
         showNotification('Грешен имейл или пароля!', 'error');
     }

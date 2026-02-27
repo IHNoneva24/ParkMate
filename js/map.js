@@ -2,7 +2,7 @@
 function getCurrentLocation() {
     return new Promise((resolve, reject) => {
         if (!navigator.geolocation) {
-            reject(new Error('Geolocation is not supported by this browser.'));
+            reject(new Error('Локацията не се поддържа от този браузър.'));
             return;
         }
 
@@ -134,7 +134,7 @@ function updateUserLocationOnMap() {
             popupAnchor: [0, -20]
         });
 
-        const popupText = (translations && translations[currentLanguage] && translations[currentLanguage].yourLocation) || 'You are here';
+        const popupText = (translations && translations[currentLanguage] && translations[currentLanguage].yourLocation) || 'Вие сте тук';
 
         userLocationMarker = L.marker([currentLocation.lat, currentLocation.lng], { icon: userIcon }).addTo(leafletMap);
         userLocationMarker.bindPopup(popupText, { maxWidth: 200, closeButton: true });
@@ -491,4 +491,78 @@ async function geocodeAllParkings() {
     showNotification('Координатите са актуализирани', 'success');
     localStorage.setItem('parkingData', JSON.stringify(parkingData));
     renderParkingOnMap();
+}
+
+// Fetch nearby real parkings from OpenStreetMap Overpass API and merge into parkingData
+async function fetchNearbyParkings(lat, lng, radius = 2000, limit = 60) {
+    if (!lat || !lng) return [];
+    try {
+        const query = `[
+out:json][timeout:25];
+(node["amenity"="parking"](around:${radius},${lat},${lng});
+ way["amenity"="parking"](around:${radius},${lat},${lng});
+ relation["amenity"="parking"](around:${radius},${lat},${lng});
+);
+ out center ${limit};`;
+
+        const resp = await fetch('https://overpass-api.de/api/interpreter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+            body: `data=${encodeURIComponent(query)}`
+        });
+
+        if (!resp.ok) throw new Error('Overpass request failed');
+        const data = await resp.json();
+        if (!data.elements || !data.elements.length) return [];
+
+        const added = [];
+        for (const el of data.elements) {
+            let coord = null;
+            if (el.type === 'node' && el.lat && el.lon) coord = { lat: el.lat, lng: el.lon };
+            else if (el.center && el.center.lat && el.center.lon) coord = { lat: el.center.lat, lng: el.center.lon };
+            if (!coord) continue;
+
+            // dedupe: skip if we already have a parking at same coordinates within ~20m
+            const exists = parkingData.some(p => {
+                const d = calculateDistance(p.coordinates.lat, p.coordinates.lng, coord.lat, coord.lng);
+                return d < 0.02; // ~20 meters
+            });
+            if (exists) continue;
+
+            const tags = el.tags || {};
+                const name = tags.name || tags.operator || 'Локация';
+            const location = tags['addr:street'] ? `${tags['addr:street']}${tags['addr:housenumber'] ? ' ' + tags['addr:housenumber'] : ''}` : (tags['addr:city'] || 'Бургас');
+            const available = Math.max(0, Math.floor(Math.random() * 40));
+            const total = available + Math.floor(Math.random() * 60) + 5;
+            const price = (Math.random() * 3 + 1).toFixed(2);
+            const parking = {
+                id: Number(String(el.id).slice(-9)) + (el.type === 'way' ? 1000000 : 2000000),
+                name: name,
+                location: location,
+                coordinates: { lat: coord.lat, lng: coord.lng },
+                availableSpots: available,
+                totalSpots: total,
+                price: price,
+                status: available === 0 ? 'full' : (available === total ? 'available' : 'available'),
+                rating: (Math.random() * 1.5 + 3.5).toFixed(1),
+                reviews: Math.floor(Math.random() * 120)
+            };
+
+            parkingData.push(parking);
+            added.push(parking);
+            if (added.length >= limit) break;
+        }
+
+        // persist a lightweight cache of added parkings so reloads keep them
+        try { localStorage.setItem('osmNearbyParkings', JSON.stringify(added)); } catch (e) { /* ignore */ }
+
+        // re-render map and update selects
+        if (typeof renderParkingOnMap === 'function') renderParkingOnMap();
+        if (typeof populateNavigationSelect === 'function') populateNavigationSelect();
+
+        return added;
+    } catch (e) {
+        console.warn('fetchNearbyParkings error', e);
+        return [];
+    }
 }
