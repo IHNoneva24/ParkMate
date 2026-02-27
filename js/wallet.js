@@ -1,6 +1,6 @@
 // ============ WALLET ============
 function loadWallet() {
-    document.getElementById('walletBalance').textContent = wallet.toFixed(2) + ' BGN';
+    document.getElementById('walletBalance').textContent = wallet.toFixed(2) + ' EUR';
     document.getElementById('transactionCount').textContent = transactions.length;
 
     const container = document.getElementById('transactionsContainer');
@@ -26,7 +26,7 @@ function loadWallet() {
                 </div>
             </div>
             <div style="font-weight:700;color:${isAdd ? '#27ae60' : '#e74c3c'};">
-                ${isAdd ? '+' : '-'}${tx.amount.toFixed(2)} BGN
+                ${isAdd ? '+' : '-'}${tx.amount.toFixed(2)} EUR
             </div>
         `;
         container.appendChild(div);
@@ -34,7 +34,7 @@ function loadWallet() {
 }
 
 async function addFunds() {
-    const amountStr = prompt('Въведи сума за добавяне (BGN):', '20');
+    const amountStr = prompt('Въведи сума за добавяне (EUR):', '20');
     if (!amountStr) return;
     const amount = parseFloat(amountStr);
     if (isNaN(amount) || amount <= 0) { showNotification('Невалидна сума!', 'error'); return; }
@@ -44,7 +44,7 @@ async function addFunds() {
         wallet = result.balance;
         transactions.unshift({ type: 'add', name: 'Добавени средства', amount, date: new Date().toLocaleDateString('bg-BG') });
         loadWallet();
-        showNotification(`Добавени ${amount.toFixed(2)} BGN!`, 'success');
+        showNotification(`Добавени ${amount.toFixed(2)} EUR!`, 'success');
     } catch (err) {
         showNotification(err.message || 'Грешка!', 'error');
     }

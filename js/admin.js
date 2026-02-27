@@ -177,7 +177,7 @@ function buildDashboard() {
                     <i class="fas fa-coins"></i>
                 </div>
                 <div>
-                    <div class="admin-stat-number">${totalRevenue.toFixed(2)} BGN</div>
+                    <div class="admin-stat-number">${totalRevenue.toFixed(2)} EUR</div>
                     <div class="admin-stat-label">Общи приходи</div>
                 </div>
             </div>
@@ -468,7 +468,7 @@ async function saveAdminParking(event) {
 
     const data = {
         name, location, totalSpots, availableSpots,
-        price: `${priceVal.toFixed(2)} BGN/час`,
+        price: `${priceVal.toFixed(2)} EUR/час`,
         status, description, lat, lng,
         amenities: [], rating: 4.0
     };
@@ -678,7 +678,7 @@ function buildUserRows(users) {
                 </td>
                 <td style="font-size:0.88em;">${u.email || u.username}</td>
                 <td style="font-size:0.88em;">${u.phone || '—'}</td>
-                <td style="font-weight:600;color:#27ae60;">${(u.wallet || 0).toFixed(2)} BGN</td>
+                <td style="font-weight:600;color:#27ae60;">${(u.wallet || 0).toFixed(2)} EUR</td>
                 <td>${u.bookingCount || 0}</td>
                 <td style="font-size:0.82em;color:var(--text-light);">${u.createdAt || '—'}</td>
                 <td><span class="status-badge ${isAdmin ? 'admin' : 'available'}">${isAdmin ? 'Admin' : 'Потребител'}</span></td>
@@ -714,7 +714,7 @@ function adminViewUser(id) {
 Потребител: ${u.name}
 Email: ${u.email || u.username}
 Телефон: ${u.phone || '—'}
-Баланс: ${(u.wallet || 0).toFixed(2)} BGN
+Баланс: ${(u.wallet || 0).toFixed(2)} EUR
 Резервации: ${u.bookingCount || 0}
 Член от: ${u.createdAt || '—'}
     `.trim();
@@ -754,7 +754,7 @@ function buildBookingsOverview() {
             <td style="font-size:0.88em;">${b.parkingName || '—'}</td>
             <td style="font-size:0.85em;">${b.date || '—'}</td>
             <td>${b.duration || '—'} ч.</td>
-            <td style="font-weight:600;color:#27ae60;">${(b.totalPrice || 0).toFixed(2)} BGN</td>
+            <td style="font-weight:600;color:#27ae60;">${(b.totalPrice || 0).toFixed(2)} EUR</td>
             <td><span class="status-badge ${b.status === 'Активна' ? 'available' : b.status === 'Отменена' ? 'full' : 'reserved'}">${b.status || '—'}</span></td>
         </tr>
     `).join('');
@@ -815,7 +815,7 @@ function buildRevenueSection() {
     const topRows = revenueData.map(r => `
         <tr>
             <td><strong>${r.name}</strong></td>
-            <td style="font-weight:700;color:#27ae60;">${(r.revenue || 0).toFixed(2)} BGN</td>
+            <td style="font-weight:700;color:#27ae60;">${(r.revenue || 0).toFixed(2)} EUR</td>
             <td>
                 <div style="height:8px;background:#e8f8f0;border-radius:4px;overflow:hidden;">
                     <div style="height:100%;width:${revenueData[0] && revenueData[0].revenue > 0 ? Math.round((r.revenue / revenueData[0].revenue) * 100) : 0}%;background:linear-gradient(135deg,#27ae60,#2ecc71);border-radius:4px;"></div>
@@ -828,7 +828,7 @@ function buildRevenueSection() {
         <div class="admin-stats-grid" style="margin-bottom:20px;">
             <div class="admin-stat-card" style="border-color:#f39c12;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#f39c12,#e67e22);"><i class="fas fa-coins"></i></div>
-                <div><div class="admin-stat-number">${totalRevenue.toFixed(2)} BGN</div><div class="admin-stat-label">Общи приходи от паркиране</div></div>
+                <div><div class="admin-stat-number">${totalRevenue.toFixed(2)} EUR</div><div class="admin-stat-label">Общи приходи от паркиране</div></div>
             </div>
             <div class="admin-stat-card" style="border-color:#9b59b6;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#9b59b6,#8e44ad);"><i class="fas fa-receipt"></i></div>
@@ -836,7 +836,7 @@ function buildRevenueSection() {
             </div>
             <div class="admin-stat-card" style="border-color:#1abc9c;">
                 <div class="admin-stat-icon" style="background:linear-gradient(135deg,#1abc9c,#16a085);"><i class="fas fa-calculator"></i></div>
-                <div><div class="admin-stat-number">${avgPerBooking.toFixed(2)} BGN</div><div class="admin-stat-label">Средна стойност резервация</div></div>
+                <div><div class="admin-stat-number">${avgPerBooking.toFixed(2)} EUR</div><div class="admin-stat-label">Средна стойност резервация</div></div>
             </div>
         </div>
 

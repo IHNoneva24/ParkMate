@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = card.textContent.toLowerCase();
             const status = card.querySelector('.parking-status');
             const priceText = card.querySelector('.parking-price')?.textContent || '';
-            const price = parseFloat(priceText.replace(' BGN/час', '')) || 0;
+            const price = parseFloat(priceText.replace(' EUR/час', '')) || 0;
             
             const matchesSearch = text.includes(searchTerm);
             const matchesStatus = !filterValue || status.className.includes(filterValue);

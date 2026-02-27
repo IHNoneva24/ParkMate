@@ -6,7 +6,7 @@ function loadStatistics() {
     const avgRating = 4.5;
 
     document.getElementById('totalBookings').textContent = totalBookings;
-    document.getElementById('totalSpent').textContent = totalSpent.toFixed(2) + ' BGN';
+    document.getElementById('totalSpent').textContent = totalSpent.toFixed(2) + ' EUR';
     document.getElementById('totalHours').textContent = totalHours.toFixed(1) + 'h';
     document.getElementById('avgRating').textContent = avgRating.toFixed(1);
 
@@ -22,21 +22,21 @@ function loadStatistics() {
                 <div style="text-align: center; flex: 1;">
                     <div style="background: linear-gradient(to top, #3498DB 0%, #3498DB ${feb}%); width: 100%; height: 150px; border-radius: 5px; margin-bottom: 10px;"></div>
                     <p style="color: var(--text-light); font-size: 0.9em; margin: 0;">Февруари</p>
-                    <p style="color: var(--text-dark); font-weight: 600; margin: 5px 0 0;">${totalSpent.toFixed(2)} BGN</p>
+                    <p style="color: var(--text-dark); font-weight: 600; margin: 5px 0 0;">${totalSpent.toFixed(2)} EUR</p>
                 </div>
                 <div style="text-align: center; flex: 1;">
                     <div style="background: linear-gradient(to top, #27AE60 0%, #27AE60 ${jan}%); width: 100%; height: 150px; border-radius: 5px; margin-bottom: 10px;"></div>
                     <p style="color: var(--text-light); font-size: 0.9em; margin: 0;">Януари</p>
-                    <p style="color: var(--text-dark); font-weight: 600; margin: 5px 0 0;">28.00 BGN</p>
+                    <p style="color: var(--text-dark); font-weight: 600; margin: 5px 0 0;">28.00 EUR</p>
                 </div>
                 <div style="text-align: center; flex: 1;">
                     <div style="background: linear-gradient(to top, #E74C3C 0%, #E74C3C ${dec}%); width: 100%; height: 150px; border-radius: 5px; margin-bottom: 10px;"></div>
                     <p style="color: var(--text-light); font-size: 0.9em; margin: 0;">Декември</p>
-                    <p style="color: var(--text-dark); font-weight: 600; margin: 5px 0 0;">45.50 BGN</p>
+                    <p style="color: var(--text-dark); font-weight: 600; margin: 5px 0 0;">45.50 EUR</p>
                 </div>
             </div>
             <div style="text-align: center; padding-top: 20px; border-top: 1px solid var(--border-color);">
-                <p style="color: var(--text-light); margin: 0;">Средна месячна разход: <span style="color: var(--text-dark); font-weight: 600; font-size: 1.2em;">${((totalSpent + 28 + 45.5) / 3).toFixed(2)} BGN</span></p>
+                <p style="color: var(--text-light); margin: 0;">Средна месячна разход: <span style="color: var(--text-dark); font-weight: 600; font-size: 1.2em;">${((totalSpent + 28 + 45.5) / 3).toFixed(2)} EUR</span></p>
             </div>
         </div>
         <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">

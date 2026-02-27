@@ -23,7 +23,7 @@ function loadHistory() {
                 <h3>${b.parkingName}</h3>
                 <p><i class="fas fa-calendar"></i> Дата: ${b.bookingDate}</p>
                 <p><i class="fas fa-clock"></i> Продължителност: ${b.duration}</p>
-                <p><i class="fas fa-tag"></i> Цена: ${b.price} BGN</p>
+                <p><i class="fas fa-tag"></i> Цена: ${b.price} EUR</p>
                 <span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.82em;font-weight:700;background:${b.status==='Отменена'?'#fdecea':'#d5f5e3'};color:${b.status==='Отменена'?'#c0392b':'#1e8449'};">${b.status}</span>
             </div>
             <div class="booking-actions">

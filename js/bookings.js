@@ -66,7 +66,7 @@ function showReservationForm(parkingId) {
             </div>
             <div style="background:#f8f9fa;border-radius:8px;padding:12px;margin-bottom:15px;font-size:0.9em;">
                 <i class="fas fa-wallet" style="color:#27ae60;"></i>
-                Баланс: <strong style="color:#27ae60;">${wallet.toFixed(2)} BGN</strong>
+                Баланс: <strong style="color:#27ae60;">${wallet.toFixed(2)} EUR</strong>
             </div>
             <div class="modal-actions">
                 <button type="submit" class="btn btn-reserve">Резервирай</button>
@@ -159,7 +159,7 @@ function loadBookings() {
                 <h3>${booking.parkingName}</h3>
                 <p><i class="fas fa-calendar"></i> Дата: ${booking.bookingDate}</p>
                 <p><i class="fas fa-clock"></i> Продължителност: ${booking.duration}</p>
-                <p><i class="fas fa-tag"></i> Цена: ${booking.price} BGN</p>
+                <p><i class="fas fa-tag"></i> Цена: ${booking.price} EUR</p>
                 <p><strong style="color:#27AE60;">${booking.status}</strong></p>
                 ${booking.status === 'Активна' ? `
                 <div style="background:#e3f2fd;padding:10px;border-radius:8px;margin-top:10px;text-align:center;">
