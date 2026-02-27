@@ -1,0 +1,627 @@
+/* ============ DARK THEME ============ */
+/* Applies when user selects dark theme in settings, OR when system prefers dark */
+
+@media (prefers-color-scheme: dark) {
+    :root:not(.light-forced) {
+        --primary-color: #3B8ED4;
+        --primary-dark: #245B8C;
+        --primary-light: #5BA3E0;
+        --secondary-color: #2ECC71;
+        --danger-color: #E74C3C;
+        --warning-color: #F39C12;
+        --success-color: #2ECC71;
+        --text-dark: #E8ECEF;
+        --text-light: #9EAAB4;
+        --border-color: #2D3748;
+        --background: #0F1923;
+        --white: #1A2332;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+        --card-bg: #1E2D3D;
+        --input-bg: #162029;
+        --hover-bg: rgba(59, 142, 212, 0.1);
+        --table-stripe: rgba(255, 255, 255, 0.03);
+        --table-hover: rgba(255, 255, 255, 0.06);
+        --popup-bg: #1E2D3D;
+    }
+}
+
+body.dark-theme {
+    --primary-color: #3B8ED4;
+    --primary-dark: #245B8C;
+    --primary-light: #5BA3E0;
+    --secondary-color: #2ECC71;
+    --danger-color: #E74C3C;
+    --warning-color: #F39C12;
+    --success-color: #2ECC71;
+    --text-dark: #E8ECEF;
+    --text-light: #9EAAB4;
+    --border-color: #2D3748;
+    --background: #0F1923;
+    --white: #1A2332;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --card-bg: #1E2D3D;
+    --input-bg: #162029;
+    --hover-bg: rgba(59, 142, 212, 0.1);
+    --table-stripe: rgba(255, 255, 255, 0.03);
+    --table-hover: rgba(255, 255, 255, 0.06);
+    --popup-bg: #1E2D3D;
+}
+
+/* --- Body & general --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) {
+        background-color: var(--background);
+        color: var(--text-dark);
+    }
+}
+
+body.dark-theme {
+    background-color: var(--background);
+    color: var(--text-dark);
+}
+
+/* Helper mixin: apply to both system dark AND manual dark */
+/* We use :is(.dark-theme) body, @media combo */
+
+/* --- Sidebar --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .sidebar {
+        background: var(--white);
+        border-right-color: var(--border-color);
+    }
+    body:not(.light-forced) .nav-item {
+        color: var(--text-dark);
+    }
+    body:not(.light-forced) .nav-item:hover {
+        background-color: var(--hover-bg);
+    }
+    body:not(.light-forced) .nav-item.active {
+        background-color: rgba(59, 142, 212, 0.15);
+    }
+}
+
+body.dark-theme .sidebar {
+    background: var(--white);
+    border-right-color: var(--border-color);
+}
+body.dark-theme .nav-item {
+    color: var(--text-dark);
+}
+body.dark-theme .nav-item:hover {
+    background-color: var(--hover-bg);
+}
+body.dark-theme .nav-item.active {
+    background-color: rgba(59, 142, 212, 0.15);
+}
+
+/* --- Content area --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .content {
+        background-color: var(--background);
+    }
+}
+body.dark-theme .content {
+    background-color: var(--background);
+}
+
+/* --- Cards (parking, booking, stats, auth) --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .parking-card,
+    body:not(.light-forced) .booking-card,
+    body:not(.light-forced) .stat-card,
+    body:not(.light-forced) .auth-card,
+    body:not(.light-forced) .settings-section,
+    body:not(.light-forced) .faq-item,
+    body:not(.light-forced) .review-card,
+    body:not(.light-forced) .wallet-card,
+    body:not(.light-forced) .contact-card,
+    body:not(.light-forced) .news-card,
+    body:not(.light-forced) .history-card {
+        background: var(--card-bg) !important;
+        border-color: var(--border-color) !important;
+        color: var(--text-dark);
+    }
+}
+
+body.dark-theme .parking-card,
+body.dark-theme .booking-card,
+body.dark-theme .stat-card,
+body.dark-theme .auth-card,
+body.dark-theme .settings-section,
+body.dark-theme .faq-item,
+body.dark-theme .review-card,
+body.dark-theme .wallet-card,
+body.dark-theme .contact-card,
+body.dark-theme .news-card,
+body.dark-theme .history-card {
+    background: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-dark);
+}
+
+/* --- Inputs, selects, textareas --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) input,
+    body:not(.light-forced) select,
+    body:not(.light-forced) textarea {
+        background: var(--input-bg) !important;
+        color: var(--text-dark) !important;
+        border-color: var(--border-color) !important;
+    }
+    body:not(.light-forced) input::placeholder,
+    body:not(.light-forced) textarea::placeholder {
+        color: var(--text-light);
+    }
+}
+
+body.dark-theme input,
+body.dark-theme select,
+body.dark-theme textarea {
+    background: var(--input-bg) !important;
+    color: var(--text-dark) !important;
+    border-color: var(--border-color) !important;
+}
+body.dark-theme input::placeholder,
+body.dark-theme textarea::placeholder {
+    color: var(--text-light);
+}
+
+/* --- Modals --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .modal-content {
+        background: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        color: var(--text-dark);
+    }
+    body:not(.light-forced) .modal-content h3,
+    body:not(.light-forced) .modal-content h2,
+    body:not(.light-forced) .modal-content label {
+        color: var(--text-dark);
+    }
+}
+
+body.dark-theme .modal-content {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+}
+body.dark-theme .modal-content h3,
+body.dark-theme .modal-content h2,
+body.dark-theme .modal-content label {
+    color: var(--text-dark);
+}
+
+/* --- Admin panel --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .admin-stat-card {
+        background: var(--card-bg) !important;
+        color: var(--text-dark);
+    }
+    body:not(.light-forced) .admin-tab-btn {
+        background: var(--card-bg);
+        color: var(--text-dark);
+        border-color: var(--border-color);
+    }
+    body:not(.light-forced) .admin-tab-btn:hover {
+        background: var(--hover-bg);
+        color: #E74C3C;
+    }
+    body:not(.light-forced) .admin-tab-btn.active {
+        background: linear-gradient(135deg, #c0392b, #e74c3c);
+        color: white;
+    }
+    body:not(.light-forced) .admin-table-wrapper {
+        background: var(--card-bg);
+        border-color: var(--border-color);
+    }
+    body:not(.light-forced) .admin-table-header {
+        border-bottom-color: var(--border-color);
+    }
+    body:not(.light-forced) .admin-table th {
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--text-light);
+        border-bottom-color: var(--border-color);
+    }
+    body:not(.light-forced) .admin-table td {
+        border-bottom-color: var(--border-color);
+        color: var(--text-dark);
+    }
+    body:not(.light-forced) .admin-table tr:hover td {
+        background: var(--table-hover);
+    }
+    body:not(.light-forced) .admin-chart-area {
+        background: var(--card-bg) !important;
+        color: var(--text-dark);
+    }
+    body:not(.light-forced) .admin-chart-area h3 {
+        color: var(--text-dark);
+    }
+    body:not(.light-forced) .admin-quick-btn {
+        background: var(--card-bg) !important;
+        border-color: var(--border-color) !important;
+        color: var(--text-dark) !important;
+    }
+    body:not(.light-forced) .admin-quick-btn:hover {
+        background: var(--hover-bg) !important;
+    }
+    body:not(.light-forced) .admin-search-input {
+        background: var(--input-bg) !important;
+        color: var(--text-dark) !important;
+        border-color: var(--border-color) !important;
+    }
+    /* Admin inline white backgrounds */
+    body:not(.light-forced) [style*="background:white"],
+    body:not(.light-forced) [style*="background: white"] {
+        background: var(--card-bg) !important;
+    }
+}
+
+body.dark-theme .admin-stat-card {
+    background: var(--card-bg) !important;
+    color: var(--text-dark);
+}
+body.dark-theme .admin-tab-btn {
+    background: var(--card-bg);
+    color: var(--text-dark);
+    border-color: var(--border-color);
+}
+body.dark-theme .admin-tab-btn:hover {
+    background: var(--hover-bg);
+    color: #E74C3C;
+}
+body.dark-theme .admin-tab-btn.active {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: white;
+}
+body.dark-theme .admin-table-wrapper {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+body.dark-theme .admin-table-header {
+    border-bottom-color: var(--border-color);
+}
+body.dark-theme .admin-table th {
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-light);
+    border-bottom-color: var(--border-color);
+}
+body.dark-theme .admin-table td {
+    border-bottom-color: var(--border-color);
+    color: var(--text-dark);
+}
+body.dark-theme .admin-table tr:hover td {
+    background: var(--table-hover);
+}
+body.dark-theme .admin-chart-area {
+    background: var(--card-bg) !important;
+    color: var(--text-dark);
+}
+body.dark-theme .admin-chart-area h3 {
+    color: var(--text-dark);
+}
+body.dark-theme .admin-quick-btn {
+    background: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-dark) !important;
+}
+body.dark-theme .admin-quick-btn:hover {
+    background: var(--hover-bg) !important;
+}
+body.dark-theme .admin-search-input {
+    background: var(--input-bg) !important;
+    color: var(--text-dark) !important;
+    border-color: var(--border-color) !important;
+}
+body.dark-theme [style*="background:white"],
+body.dark-theme [style*="background: white"] {
+    background: var(--card-bg) !important;
+}
+
+/* --- FAQ --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .faq-question {
+        color: var(--text-dark);
+    }
+    body:not(.light-forced) .faq-answer {
+        color: var(--text-light);
+        background: rgba(0,0,0,0.15);
+    }
+}
+body.dark-theme .faq-question {
+    color: var(--text-dark);
+}
+body.dark-theme .faq-answer {
+    color: var(--text-light);
+    background: rgba(0,0,0,0.15);
+}
+
+/* --- Wallet & Transactions --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .transaction-item,
+    body:not(.light-forced) .wallet-section {
+        background: var(--card-bg);
+        border-color: var(--border-color);
+    }
+}
+body.dark-theme .transaction-item,
+body.dark-theme .wallet-section {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+/* --- Leaflet map popups --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .leaflet-popup-content-wrapper {
+        background: var(--card-bg) !important;
+        color: var(--text-dark) !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    body:not(.light-forced) .leaflet-popup-tip {
+        background: var(--card-bg) !important;
+    }
+    body:not(.light-forced) .leaflet-popup-content {
+        color: var(--text-dark) !important;
+    }
+    body:not(.light-forced) .leaflet-popup-content strong {
+        color: var(--text-dark) !important;
+    }
+    body:not(.light-forced) .leaflet-popup-content div {
+        color: var(--text-light) !important;
+    }
+    body:not(.light-forced) .leaflet-control-zoom a {
+        background: var(--card-bg) !important;
+        color: var(--text-dark) !important;
+        border-color: var(--border-color) !important;
+    }
+    body:not(.light-forced) .leaflet-control-attribution {
+        background: rgba(26, 35, 50, 0.8) !important;
+        color: var(--text-light) !important;
+    }
+    body:not(.light-forced) .leaflet-control-attribution a {
+        color: var(--primary-light) !important;
+    }
+    /* Dark map tiles filter */
+    body:not(.light-forced) .leaflet-tile-pane {
+        filter: brightness(0.78) contrast(1.15) saturate(0.85);
+    }
+}
+
+body.dark-theme .leaflet-popup-content-wrapper {
+    background: var(--card-bg) !important;
+    color: var(--text-dark) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+body.dark-theme .leaflet-popup-tip {
+    background: var(--card-bg) !important;
+}
+body.dark-theme .leaflet-popup-content {
+    color: var(--text-dark) !important;
+}
+body.dark-theme .leaflet-popup-content strong {
+    color: var(--text-dark) !important;
+}
+body.dark-theme .leaflet-popup-content div {
+    color: var(--text-light) !important;
+}
+body.dark-theme .leaflet-control-zoom a {
+    background: var(--card-bg) !important;
+    color: var(--text-dark) !important;
+    border-color: var(--border-color) !important;
+}
+body.dark-theme .leaflet-control-attribution {
+    background: rgba(26, 35, 50, 0.8) !important;
+    color: var(--text-light) !important;
+}
+body.dark-theme .leaflet-control-attribution a {
+    color: var(--primary-light) !important;
+}
+body.dark-theme .leaflet-tile-pane {
+    filter: brightness(0.78) contrast(1.15) saturate(0.85);
+}
+
+/* --- Notifications --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .notification {
+        background: var(--card-bg) !important;
+        color: var(--text-dark) !important;
+        border-color: var(--border-color);
+    }
+}
+body.dark-theme .notification {
+    background: var(--card-bg) !important;
+    color: var(--text-dark) !important;
+    border-color: var(--border-color);
+}
+
+/* --- Scrollbar --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) ::-webkit-scrollbar-track {
+        background: var(--background);
+    }
+    body:not(.light-forced) ::-webkit-scrollbar-thumb {
+        background: #3D4F5F;
+    }
+    body:not(.light-forced) ::-webkit-scrollbar-thumb:hover {
+        background: #4D6070;
+    }
+}
+body.dark-theme ::-webkit-scrollbar-track {
+    background: var(--background);
+}
+body.dark-theme ::-webkit-scrollbar-thumb {
+    background: #3D4F5F;
+}
+body.dark-theme ::-webkit-scrollbar-thumb:hover {
+    background: #4D6070;
+}
+
+/* --- Filter/search bars --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .filter-group {
+        background: var(--card-bg) !important;
+        border-color: var(--border-color) !important;
+    }
+    body:not(.light-forced) .search-input {
+        background: var(--input-bg) !important;
+        color: var(--text-dark) !important;
+        border-color: var(--border-color) !important;
+    }
+}
+body.dark-theme .filter-group {
+    background: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+body.dark-theme .search-input {
+    background: var(--input-bg) !important;
+    color: var(--text-dark) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* --- Settings container --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .settings-container {
+        background: var(--background);
+    }
+}
+body.dark-theme .settings-container {
+    background: var(--background);
+}
+
+/* --- Contact info blocks --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .contact-info-item {
+        background: var(--card-bg);
+        border-color: var(--border-color);
+    }
+    body:not(.light-forced) .contact-form {
+        background: var(--card-bg) !important;
+    }
+}
+body.dark-theme .contact-info-item {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+body.dark-theme .contact-form {
+    background: var(--card-bg) !important;
+}
+
+/* --- Auth page --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .auth-container {
+        background: var(--background) !important;
+    }
+    body:not(.light-forced) .auth-card {
+        background: var(--card-bg) !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+}
+body.dark-theme .auth-container {
+    background: var(--background) !important;
+}
+body.dark-theme .auth-card {
+    background: var(--card-bg) !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+/* --- Compare bar --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) #compareBar {
+        background: var(--card-bg) !important;
+        border-color: var(--border-color);
+        color: var(--text-dark);
+    }
+}
+body.dark-theme #compareBar {
+    background: var(--card-bg) !important;
+    border-color: var(--border-color);
+    color: var(--text-dark);
+}
+
+/* --- Weather widget --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) #weatherWidget {
+        background: var(--card-bg) !important;
+        color: var(--text-dark);
+    }
+}
+body.dark-theme #weatherWidget {
+    background: var(--card-bg) !important;
+    color: var(--text-dark);
+}
+
+/* --- Section headers text --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) h1, body:not(.light-forced) h2,
+    body:not(.light-forced) h3, body:not(.light-forced) h4 {
+        color: var(--text-dark);
+    }
+    body:not(.light-forced) .section-header h2 {
+        color: var(--text-dark);
+    }
+}
+body.dark-theme h1, body.dark-theme h2,
+body.dark-theme h3, body.dark-theme h4 {
+    color: var(--text-dark);
+}
+body.dark-theme .section-header h2 {
+    color: var(--text-dark);
+}
+
+/* --- Booking actions and status --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .booking-list {
+        color: var(--text-dark);
+    }
+}
+body.dark-theme .booking-list {
+    color: var(--text-dark);
+}
+
+/* --- Header is always fine (gradient), but ensure header text stays white --- */
+.header h2, .header span, .header .logo span, .header .user-info span {
+    color: white !important;
+}
+
+/* --- Mobile menu toggle in dark --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .menu-toggle {
+        background: var(--card-bg);
+        border-color: var(--primary-light);
+        color: var(--primary-light);
+    }
+}
+body.dark-theme .menu-toggle {
+    background: var(--card-bg);
+    border-color: var(--primary-light);
+    color: var(--primary-light);
+}
+
+/* --- Parking info details text --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .parking-card .parking-name,
+    body:not(.light-forced) .parking-card .parking-location,
+    body:not(.light-forced) .parking-card p,
+    body:not(.light-forced) .parking-card span,
+    body:not(.light-forced) .parking-description {
+        color: var(--text-dark);
+    }
+}
+body.dark-theme .parking-card .parking-name,
+body.dark-theme .parking-card .parking-location,
+body.dark-theme .parking-card p,
+body.dark-theme .parking-card span,
+body.dark-theme .parking-description {
+    color: var(--text-dark);
+}
+
+/* --- Geocode container --- */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-forced) .geocode-container {
+        background: var(--card-bg) !important;
+    }
+}
+body.dark-theme .geocode-container {
+    background: var(--card-bg) !important;
+}
