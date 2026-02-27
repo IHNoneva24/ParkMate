@@ -175,25 +175,30 @@ function selectSpot(parkingId, spotNumber) {
 }
 
 // ============ FAVORITES ============
-function toggleFavorite(event, parkingId) {
+async function toggleFavorite(event, parkingId) {
     event.stopPropagation();
-    if (favorites.includes(parkingId)) {
-        favorites = favorites.filter(id => id !== parkingId);
-    } else {
-        favorites.push(parkingId);
-    }
-    saveToLocalStorage();
-
-    document.querySelectorAll('.btn-favorite').forEach((btn, index) => {
-        const cardParking = parkingData[index];
-        if (favorites.includes(cardParking.id)) {
-            btn.classList.add('active');
+    const isFav = favorites.includes(parkingId);
+    try {
+        if (isFav) {
+            await API.removeFavorite(parkingId);
+            favorites = favorites.filter(id => id !== parkingId);
+            showNotification('Премахнато от любими!', 'info');
         } else {
-            btn.classList.remove('active');
+            await API.addFavorite(parkingId);
+            favorites.push(parkingId);
+            showNotification('Добавено в любими!', 'success');
         }
-    });
-
-    showNotification(favorites.includes(parkingId) ? 'Добавено в любими!' : 'Премахнато от любими!', 'success');
+        // refresh heart buttons
+        document.querySelectorAll('.btn-favorite').forEach(btn => {
+            const idMatch = btn.getAttribute('onclick').match(/\d+\)$/);
+            if (idMatch) {
+                const bid = parseInt(idMatch[0]);
+                btn.classList.toggle('active', favorites.includes(bid));
+            }
+        });
+    } catch (e) {
+        showNotification(e.message || 'Грешка!', 'error');
+    }
 }
 
 function toggleCompare(event, parkingId) {

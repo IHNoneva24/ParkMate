@@ -1,52 +1,38 @@
 // ============ BOOKING TIMER ============
 function startBookingTimer(bookingId, durationMinutes) {
-    if (bookingTimers[bookingId]) {
-        clearInterval(bookingTimers[bookingId]);
-    }
-    
-    let timeRemaining = durationMinutes * 60; // seconds
-    
+    if (bookingTimers[bookingId]) clearInterval(bookingTimers[bookingId]);
+    let timeRemaining = durationMinutes * 60;
     bookingTimers[bookingId] = setInterval(() => {
         timeRemaining--;
-        
         if (timeRemaining <= 0) {
             clearInterval(bookingTimers[bookingId]);
             delete bookingTimers[bookingId];
-            
-            const booking = bookings.find(b => b.id === bookingId);
-            if (booking) {
-                showNotification(`⏰ Вашата резервация за ${booking.parkingName} е изтекла!`, 'warning');
-            }
+            const b = bookings.find(b => b.id === bookingId);
+            if (b) showNotification(`⏰ Вашата резервация за ${b.parkingName} е изтекла!`, 'warning');
         }
-        
         updateBookingTimerDisplay(bookingId, timeRemaining);
     }, 1000);
 }
 
 function updateBookingTimerDisplay(bookingId, timeRemaining) {
-    const timerElement = document.getElementById(`timer-${bookingId}`);
-    if (timerElement) {
-        const hours = Math.floor(timeRemaining / 3600);
-        const minutes = Math.floor((timeRemaining % 3600) / 60);
-        const seconds = timeRemaining % 60;
-        
-        timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
-        if (timeRemaining < 600) {
-            timerElement.style.color = '#E74C3C';
-        }
+    const el = document.getElementById(`timer-${bookingId}`);
+    if (el) {
+        const h = Math.floor(timeRemaining / 3600);
+        const m = Math.floor((timeRemaining % 3600) / 60);
+        const s = timeRemaining % 60;
+        el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        if (timeRemaining < 600) el.style.color = '#E74C3C';
     }
 }
 
 // ============ BOOKINGS ============
 function makeBooking(parkingId) {
     const parking = parkingData.find(p => p.id === parkingId);
-    
+    if (!parking) return;
     if (parking.status === 'full') {
         showNotification('Съжалявам, този паркинг е пълен!', 'error');
         return;
     }
-
     showReservationForm(parkingId);
 }
 
@@ -64,7 +50,7 @@ function showReservationForm(parkingId) {
             </div>
             <div class="form-group">
                 <label for="resPhone"><i class="fas fa-phone"></i> Телефон</label>
-                <input type="tel" id="resPhone" required placeholder="+359888123456" value="${currentUser ? currentUser.phone : ''}">
+                <input type="tel" id="resPhone" required placeholder="+359888123456" value="${currentUser ? (currentUser.phone || '') : ''}">
             </div>
             <div class="form-group">
                 <label for="resCarInfo"><i class="fas fa-car"></i> Информация за колата</label>
@@ -78,76 +64,75 @@ function showReservationForm(parkingId) {
                 <label for="resEndTime"><i class="fas fa-clock"></i> До час</label>
                 <input type="datetime-local" id="resEndTime" required>
             </div>
+            <div style="background:#f8f9fa;border-radius:8px;padding:12px;margin-bottom:15px;font-size:0.9em;">
+                <i class="fas fa-wallet" style="color:#27ae60;"></i>
+                Баланс: <strong style="color:#27ae60;">${wallet.toFixed(2)} BGN</strong>
+            </div>
             <div class="modal-actions">
                 <button type="submit" class="btn btn-reserve">Резервирай</button>
                 <button type="button" class="btn btn-primary" onclick="closeParkingModal()">Отмени</button>
             </div>
         </form>
     `;
-
     modal.classList.add('active');
 }
 
-function handleReservationSubmit(event, parkingId) {
+async function handleReservationSubmit(event, parkingId) {
     event.preventDefault();
-    
     const parking = parkingData.find(p => p.id === parkingId);
-    const name = document.getElementById('resName').value;
-    const phone = document.getElementById('resPhone').value;
-    const carInfo = document.getElementById('resCarInfo').value;
+    const name      = document.getElementById('resName').value;
+    const phone     = document.getElementById('resPhone').value;
+    const carInfo   = document.getElementById('resCarInfo').value;
     const startTime = document.getElementById('resStartTime').value;
-    const endTime = document.getElementById('resEndTime').value;
+    const endTime   = document.getElementById('resEndTime').value;
 
     const start = new Date(startTime);
-    const end = new Date(endTime);
-    const durationMs = end - start;
-    const durationHours = durationMs / (1000 * 60 * 60);
-    
-    if (durationHours <= 0) {
-        showNotification('Крайният час трябва да е след началния!', 'error');
-        return;
+    const end   = new Date(endTime);
+    const durationHours = (end - start) / (1000 * 60 * 60);
+    if (durationHours <= 0) { showNotification('Крайният час трябва да е след началния!', 'error'); return; }
+
+    const pricePerHour = parseFloat(parking.price);
+    const totalCost    = durationHours * pricePerHour;
+    if (wallet < totalCost) { showNotification('Нямаш достатъчно средства! Добави средства в портфейла.', 'error'); return; }
+
+    const btn = document.querySelector('#reservationForm button[type="submit"]');
+    if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+    try {
+        const result = await API.createBooking({
+            parkingId,
+            parkingName: parking.name,
+            bookingDate: new Date().toLocaleDateString('bg-BG'),
+            bookingTime: new Date().toLocaleTimeString('bg-BG'),
+            startTime, endTime,
+            duration: `${durationHours.toFixed(1)} часа`,
+            price: totalCost.toFixed(2),
+            name, phone, carInfo
+        });
+
+        // Update local state
+        wallet = result.wallet;
+        transactions.unshift({ type: 'parking', name: `Резервация: ${parking.name}`, amount: totalCost, date: new Date().toLocaleDateString('bg-BG') });
+
+        // Update parking locally
+        const idx = parkingData.findIndex(p => p.id === parkingId);
+        if (idx !== -1) {
+            parkingData[idx].availableSpots = Math.max(0, parkingData[idx].availableSpots - 1);
+            if (parkingData[idx].availableSpots === 0) parkingData[idx].status = 'full';
+            else parkingData[idx].status = 'reserved';
+        }
+
+        // Reload bookings from server
+        bookings = await API.getBookings();
+
+        showNotification('Резервация направена успешно!', 'success');
+        closeParkingModal();
+        loadAllParkings();
+    } catch (err) {
+        showNotification(err.message || 'Грешка при резервация!', 'error');
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Резервирай'; }
     }
-
-    const pricePerHour = parseFloat(parking.price.replace(' BGN/час', ''));
-    const totalCost = durationHours * pricePerHour;
-
-    if (wallet < totalCost) {
-        showNotification('Нямаш достатъчно средства! Добави средства в портфейла.', 'error');
-        return;
-    }
-
-    const booking = {
-        id: Date.now(),
-        parkingId,
-        parkingName: parking.name,
-        bookingDate: new Date().toLocaleDateString('bg-BG'),
-        bookingTime: new Date().toLocaleTimeString('bg-BG'),
-        startTime: startTime,
-        endTime: endTime,
-        duration: `${durationHours.toFixed(1)} часа`,
-        status: 'Активна',
-        price: `${totalCost.toFixed(2)} BGN`,
-        name: name,
-        phone: phone,
-        carInfo: carInfo
-    };
-
-    bookings.push(booking);
-    wallet -= totalCost;
-    transactions.unshift({
-        type: 'subtract',
-        name: `Резервация: ${parking.name}`,
-        amount: totalCost,
-        date: new Date().toLocaleDateString('bg-BG')
-    });
-    
-    parking.status = 'reserved';
-    parking.availableSpots -= 1;
-    
-    saveToLocalStorage();
-    showNotification('Резервация направена успешно! Мястото е резервирано.', 'success');
-    closeParkingModal();
-    loadAllParkings();
 }
 
 function loadBookings() {
@@ -155,23 +140,16 @@ function loadBookings() {
     container.innerHTML = '';
 
     const activeBookings = bookings.filter(b => b.status === 'Активна').length;
-    const totalHours = bookings.reduce((sum, booking) => {
-        const hours = parseFloat(booking.duration.replace(' часа', '').replace(' час', ''));
-        return sum + hours;
-    }, 0);
+    const totalHours = bookings.reduce((sum, b) => sum + parseFloat(b.duration) || 0, 0);
 
     document.getElementById('activeBookingsCount').textContent = activeBookings;
     document.getElementById('totalReservedHours').textContent = totalHours.toFixed(1) + 'h';
 
     if (bookings.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-calendar"></i>
-                <p>Все още нямаш резервации</p>
-            </div>
-        `;
+        document.getElementById('noBookingsMessage').style.display = 'block';
         return;
     }
+    document.getElementById('noBookingsMessage').style.display = 'none';
 
     bookings.forEach(booking => {
         const card = document.createElement('div');
@@ -181,43 +159,42 @@ function loadBookings() {
                 <h3>${booking.parkingName}</h3>
                 <p><i class="fas fa-calendar"></i> Дата: ${booking.bookingDate}</p>
                 <p><i class="fas fa-clock"></i> Продължителност: ${booking.duration}</p>
-                <p><i class="fas fa-tag"></i> Цена: ${booking.price}</p>
-                <p><strong style="color: #27AE60; font-size: 1.1em;">${booking.status}</strong></p>
+                <p><i class="fas fa-tag"></i> Цена: ${booking.price} BGN</p>
+                <p><strong style="color:#27AE60;">${booking.status}</strong></p>
                 ${booking.status === 'Активна' ? `
-                <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin-top: 10px; text-align: center;">
-                    <div style="font-size: 0.9em; color: var(--text-light); margin-bottom: 5px;">Време до края:</div>
-                    <div id="timer-${booking.id}" style="font-family: 'Courier New', monospace; font-size: 1.3em; font-weight: 700; color: #3498DB;">00:00:00</div>
-                </div>
-                ` : ''}
+                <div style="background:#e3f2fd;padding:10px;border-radius:8px;margin-top:10px;text-align:center;">
+                    <div style="font-size:0.9em;color:var(--text-light);margin-bottom:5px;">Време до края:</div>
+                    <div id="timer-${booking.id}" style="font-family:monospace;font-size:1.3em;font-weight:700;color:#3498DB;">00:00:00</div>
+                </div>` : ''}
             </div>
             <div class="booking-actions">
-                <button class="btn btn-cancel" onclick="cancelBooking(${booking.id})">Отмени</button>
+                ${booking.status === 'Активна' ? `<button class="btn btn-cancel" onclick="cancelBooking(${booking.id})">Отмени</button>` : ''}
             </div>
         `;
         container.appendChild(card);
-        
         if (booking.status === 'Активна') {
-            const durationMinutes = parseFloat(booking.duration.replace(' часа', '').replace(' час', '')) * 60;
-            startBookingTimer(booking.id, durationMinutes);
+            const durationMin = parseFloat(booking.duration) * 60;
+            startBookingTimer(booking.id, durationMin);
         }
     });
 }
 
-function cancelBooking(bookingId) {
-    if (confirm('Сигурен ли си, че искаш да отмениш тази резервация?')) {
-        const booking = bookings.find(b => b.id === bookingId);
-        if (booking) {
-            const parking = parkingData.find(p => p.id === booking.parkingId);
-            if (parking) {
-                parking.status = parking.availableSpots < parking.totalSpots ? 'available' : 'full';
-                parking.availableSpots += 1;
-            }
+async function cancelBooking(bookingId) {
+    if (!confirm('Сигурен ли си, че искаш да отмениш тази резервация?')) return;
+    try {
+        const result = await API.cancelBooking(bookingId);
+        bookings = await API.getBookings();
+
+        // Update parking locally if returned
+        if (result.parking) {
+            const idx = parkingData.findIndex(p => p.id === result.parking.id);
+            if (idx !== -1) parkingData[idx] = result.parking;
         }
-        
-        bookings = bookings.filter(b => b.id !== bookingId);
-        saveToLocalStorage();
+
         loadBookings();
         loadAllParkings();
         showNotification('Резервация отменена!', 'success');
+    } catch (err) {
+        showNotification(err.message || 'Грешка!', 'error');
     }
 }
