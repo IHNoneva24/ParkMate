@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="css/settings.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -45,8 +47,8 @@
                 </div>
                 <form id="loginFormElement" onsubmit="handleLogin(event)">
                     <div class="form-group">
-                        <label for="loginEmail"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" id="loginEmail" required placeholder="your@email.com">
+                        <label for="loginEmail"><i class="fas fa-user"></i> Email / Потребителско Име</label>
+                        <input type="text" id="loginEmail" required placeholder="your@email.com или admin">
                     </div>
                     <div class="form-group">
                         <label for="loginPassword"><i class="fas fa-lock"></i> Пароля</label>
@@ -165,6 +167,10 @@
 
                     <div class="nav-section-title">ИНФОРМАЦИЯ</div>
                     <!-- News nav removed -->
+                    <a href="#" onclick="switchTab('admin-panel')" class="nav-item admin-only" id="adminNavItem" data-tab="admin-panel" style="display:none; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border-radius: 8px; margin: 5px 0;">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Администрация</span>
+                    </a>
                     <a href="#" onclick="switchTab('faq')" class="nav-item" data-tab="faq">
                         <i class="fas fa-question-circle"></i>
                         <span>ЧЗВ</span>
@@ -614,7 +620,73 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Admin Panel Tab -->
+                <section id="admin-panel" class="tab-content">
+                    <div id="adminPanelContent"></div>
+                </section>
+
             </main>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL MODAL: Edit Parking -->
+    <div id="adminEditModal" class="modal">
+        <div class="modal-content" style="max-width:500px;">
+            <span class="modal-close" onclick="closeAdminEditModal()">&times;</span>
+            <h2 id="adminEditTitle">Редактирай паркинг</h2>
+            <form id="adminEditForm" onsubmit="saveAdminParking(event)" style="display:flex;flex-direction:column;gap:12px;margin-top:15px;">
+                <input type="hidden" id="adminEditId">
+                <div class="form-group">
+                    <label>Наименование</label>
+                    <input type="text" id="adminEditName" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
+                </div>
+                <div class="form-group">
+                    <label>Местоположение</label>
+                    <input type="text" id="adminEditLocation" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div class="form-group">
+                        <label>Общо места</label>
+                        <input type="number" id="adminEditTotal" min="1" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Свободни места</label>
+                        <input type="number" id="adminEditAvailable" min="0" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div class="form-group">
+                        <label>Цена (BGN/час)</label>
+                        <input type="number" id="adminEditPrice" min="0" step="0.50" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Статус</label>
+                        <select id="adminEditStatus" style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
+                            <option value="available">Свободен</option>
+                            <option value="full">Пълен</option>
+                            <option value="reserved">Резервиран</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="adminEditDescription" rows="3" style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;font-family:inherit;resize:none;"></textarea>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div class="form-group">
+                        <label>Ширина (lat)</label>
+                        <input type="number" id="adminEditLat" step="0.0001" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Дължина (lng)</label>
+                        <input type="number" id="adminEditLng" step="0.0001" required style="width:100%;padding:10px;border:1px solid var(--border-color);border-radius:8px;">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="padding:12px;">
+                    <i class="fas fa-save"></i> Запази
+                </button>
+            </form>
         </div>
     </div>
 
@@ -636,7 +708,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
     <script src="js/ui.js"></script>
@@ -652,5 +724,6 @@
     <script src="js/faq.js"></script>
     <script src="js/contact.js"></script>
     <script src="js/settings.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html>

@@ -21,15 +21,7 @@
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-body.dark .btn {
-    -webkit-text-stroke: 0.5px rgba(255,255,255,0.3);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
-
-body.dark .modal-content {
-    background: rgba(15, 23, 32, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
+/* Dark theme is handled by css/dark-theme.css */
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -41,14 +33,21 @@ body {
     word-break: break-word;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     word-break: break-word;
     overflow-wrap: break-word;
     word-wrap: break-word;
     display: block;
 }
 
-p, span, div {
+p,
+span,
+div {
     word-break: break-word;
     overflow-wrap: break-word;
 }
@@ -91,7 +90,8 @@ p, span, div {
 }
 
 .logo span {
-    color: var(--white); /* logo text should always be white */
+    color: var(--white);
+    /* logo text should always be white */
 }
 
 .header-right {
@@ -108,7 +108,8 @@ p, span, div {
 
 .user-info span {
     font-weight: 500;
-    color: var(--white); /* user name in header also white */
+    color: var(--white);
+    /* user name in header also white */
 }
 
 .main-content {
@@ -189,6 +190,7 @@ p, span, div {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -225,8 +227,8 @@ p, span, div {
     justify-content: center;
     gap: 6px;
     white-space: nowrap;
-    -webkit-text-stroke: 0.5px rgba(0,0,0,0.3);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary {
