@@ -209,11 +209,11 @@ function buildDashboard() {
                     </button>
                     <button class="admin-quick-btn" onclick="adminSwitchSection('parkings');" style="color:#2980b9;">
                         <i class="fas fa-edit" style="color:#3498db;"></i>
-                        Управи паркинги
+                        Паркинги
                     </button>
                     <button class="admin-quick-btn" onclick="adminSwitchSection('users');" style="color:#1e8449;">
                         <i class="fas fa-user-cog" style="color:#27ae60;"></i>
-                        Управи потребители
+                        Потребители
                     </button>
                     <button class="admin-quick-btn" onclick="adminSwitchSection('bookings');" style="color:#c0392b;">
                         <i class="fas fa-calendar-times" style="color:#e74c3c;"></i>
