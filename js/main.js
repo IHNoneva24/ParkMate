@@ -1,16 +1,15 @@
 // ============ STATE MANAGEMENT ============
 let currentUser = null;
-let favorites = [];
-let bookings = [];
-let wallet = 50.00;
-let transactions = [
-    { type: 'add', name: 'Начален баланс', amount: 50.00, date: '20 февруари 2026' }
-];
+let favorites = [];   // array of parking IDs
+let bookings  = [];   // array of booking objects
+let wallet    = 0;
+let transactions = [];
 let compareList = [];
 let currentLocation = null;
 let userLocationMarker = null;
-let currentLanguage = 'bg'; // 'bg' for Bulgarian, 'en' for English
-let bookingTimers = {}; // Store timers for bookings
+let currentLanguage = 'bg';
+let bookingTimers = {};
+let parkingData = []; // populated from API
 
 // Routing globals
 let leafletMap = null;
@@ -18,50 +17,64 @@ let routeLine = null;
 let routeStartMarker = null;
 let routeEndMarker = null;
 
-// ============ LANGUAGE TRANSLATIONS ============
-// translations object defined further down with full content
-
-// ============ LOCAL STORAGE ============
-function saveToLocalStorage() {
-    if (currentUser) {
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        localStorage.setItem('bookings', JSON.stringify(bookings));
-        localStorage.setItem('wallet', wallet.toString());
-        localStorage.setItem('transactions', JSON.stringify(transactions));
-        localStorage.setItem('compareList', JSON.stringify(compareList));
+// ============ DATA LOADING ============
+async function loadAppData() {
+    try {
+        const [pData, fData, bData, wData] = await Promise.all([
+            API.getParkings(),
+            API.getFavorites(),
+            API.getBookings(),
+            API.getWallet()
+        ]);
+        parkingData   = pData   || [];
+        favorites     = fData   || [];
+        bookings      = bData   || [];
+        wallet        = wData.balance || 0;
+        transactions  = wData.transactions || [];
+    } catch (e) {
+        console.error('loadAppData error', e);
     }
 }
 
-function loadFromLocalStorage() {
-    const savedUser = localStorage.getItem('currentUser');
-    const savedFavorites = localStorage.getItem('favorites');
-    const savedBookings = localStorage.getItem('bookings');
-    const savedWallet = localStorage.getItem('wallet');
-    const savedTransactions = localStorage.getItem('transactions');
-    const savedCompareList = localStorage.getItem('compareList');
-
-    if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
-        bookings = savedBookings ? JSON.parse(savedBookings) : [];
-        wallet = savedWallet ? parseFloat(savedWallet) : 50.00;
-        transactions = savedTransactions ? JSON.parse(savedTransactions) : [{ type: 'add', name: 'Начален баланс', amount: 50.00, date: '20 февруари 2026' }];
-        compareList = savedCompareList ? JSON.parse(savedCompareList) : [];
+async function tryRestoreSession() {
+    const token = sessionStorage.getItem('pmToken');
+    if (!token) return;
+    try {
+        const user = await API.getMe();
+        currentUser = user;
+        await loadAppData();
+        currentLanguage = localStorage.getItem('currentLanguage') || 'bg';
+        if (typeof updatePageLanguage === 'function') updatePageLanguage();
         showApp();
+        if (typeof populateNavigationSelect === 'function') populateNavigationSelect();
+    } catch (_) {
+        setToken(null);
     }
 }
+
+// no-op kept for any legacy calls in other files
+function saveToLocalStorage() {}
+function loadFromLocalStorage() {}
 
 // ============ UI TRANSITIONS ============
 function showApp() {
     document.getElementById('authContainer').style.display = 'none';
     document.getElementById('appContainer').style.display = 'flex';
     document.getElementById('userNameDisplay').textContent = currentUser.name;
-    loadAllParkings();
-    
-    setTimeout(() => {
-        renderParkingOnMap();
-    }, 200);
+
+    // Show/hide admin nav item
+    const adminNavItem = document.getElementById('adminNavItem');
+    if (adminNavItem) {
+        adminNavItem.style.display = currentUser.isAdmin ? 'flex' : 'none';
+    }
+
+    // If admin, switch to admin panel by default
+    if (currentUser.isAdmin) {
+        switchTab('admin-panel');
+    } else {
+        loadAllParkings();
+        setTimeout(() => { renderParkingOnMap(); }, 200);
+    }
 }
 
 function showAuth() {
@@ -129,6 +142,8 @@ function switchTab(tabName) {
         // static
     } else if (tabName === 'settings') {
         loadSettings();
+    } else if (tabName === 'admin-panel') {
+        if (typeof loadAdminPanel === 'function') loadAdminPanel();
     }
 }
 
@@ -954,5 +969,7 @@ function updatePageLanguage() {
     // Запазваме избрания език
     localStorage.setItem('currentLanguage', currentLanguage);
 }
-// След като заредите currentLanguage, извикайте:
+// Restore session on page load
+currentLanguage = localStorage.getItem('currentLanguage') || 'bg';
 updatePageLanguage();
+tryRestoreSession();
