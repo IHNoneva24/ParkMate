@@ -3,38 +3,31 @@ function loadHistory() {
     const container = document.getElementById('historyContainer');
     container.innerHTML = '';
 
-    const demoCompletedBookings = [
-    { parkingName: 'Градски гараж', bookingDate: '18 февруари 2026', duration: '2 часа', price: '7.00 BGN', status: '✓ Завършена' },
-    { parkingName: 'Южен район', bookingDate: '15 февруари 2026', duration: '3 часа', price: '7.50 BGN', status: '✓ Завършена' },
-    { parkingName: 'Северен район', bookingDate: '10 февруари 2026', duration: '1 час', price: '2.75 BGN', status: '✓ Завършена' },
-    { parkingName: 'Централен гараж', bookingDate: '05 февруари 2026', duration: '2 часа', price: '10.00 BGN', status: '✓ Завършена' }
-    ];
+    const completed = bookings.filter(b => b.status !== 'Активна');
+    document.getElementById('completedCount').textContent = completed.length;
 
-    const historyToShow = bookings.length > 0 ? bookings.slice(0, Math.floor(bookings.length / 2)) : demoCompletedBookings;
+    const ratings = parkingData.map(p => p.rating).filter(Boolean);
+    const avg = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : '0.0';
+    document.getElementById('historyRating').textContent = avg;
 
-    if (historyToShow.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-history"></i>
-                <p>Все още нямаш завършени резервации</p>
-            </div>
-        `;
+    if (!completed.length) {
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-history"></i><p>Все още нямаш завършени резервации</p></div>';
         return;
     }
 
-    historyToShow.forEach(booking => {
+    completed.forEach(b => {
         const card = document.createElement('div');
         card.className = 'booking-card';
         card.innerHTML = `
             <div class="booking-details">
-                <h3>${booking.parkingName}</h3>
-                <p><i class="fas fa-calendar"></i> Дата: ${booking.bookingDate}</p>
-                <p><i class="fas fa-clock"></i> Продължителност: ${booking.duration}</p>
-                <p><i class="fas fa-tag"></i> Цена: ${booking.price}</p>
-                <p><strong style="color: #95a5a6; font-size: 1.1em;">${booking.status}</strong></p>
+                <h3>${b.parkingName}</h3>
+                <p><i class="fas fa-calendar"></i> Дата: ${b.bookingDate}</p>
+                <p><i class="fas fa-clock"></i> Продължителност: ${b.duration}</p>
+                <p><i class="fas fa-tag"></i> Цена: ${b.price} BGN</p>
+                <span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.82em;font-weight:700;background:${b.status==='Отменена'?'#fdecea':'#d5f5e3'};color:${b.status==='Отменена'?'#c0392b':'#1e8449'};">${b.status}</span>
             </div>
             <div class="booking-actions">
-                <button class="btn btn-primary" onclick="showReviewForm('${booking.parkingName}')" style="padding: 8px 15px; font-size: 0.9em;">
+                <button class="btn btn-primary" onclick="showReviewForm('${b.parkingName}')" style="padding:8px 15px;font-size:0.9em;">
                     <i class="fas fa-star"></i> Напиши отзив
                 </button>
             </div>

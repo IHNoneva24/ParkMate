@@ -1,8 +1,8 @@
 // ============ STATISTICS ============
 function loadStatistics() {
     const totalBookings = bookings.length;
-    const totalSpent = bookings.reduce((sum, booking) => sum + parseFloat(booking.price.replace(' BGN', '')), 0);
-    const totalHours = bookings.reduce((sum, booking) => sum + parseFloat(booking.duration.replace(' часа', '').replace(' час', '')), 0);
+    const totalSpent = bookings.reduce((sum, b) => sum + parseFloat(b.price) || 0, 0);
+    const totalHours = bookings.reduce((sum, b) => sum + (parseFloat(b.duration) || 0), 0);
     const avgRating = 4.5;
 
     document.getElementById('totalBookings').textContent = totalBookings;

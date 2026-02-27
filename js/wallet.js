@@ -1,54 +1,51 @@
 // ============ WALLET ============
 function loadWallet() {
     document.getElementById('walletBalance').textContent = wallet.toFixed(2) + ' BGN';
+    document.getElementById('transactionCount').textContent = transactions.length;
 
     const container = document.getElementById('transactionsContainer');
     container.innerHTML = '';
 
-    if (transactions.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-light); text-align: center;">Няма транзакции</p>';
+    if (!transactions.length) {
+        container.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:20px;">Няма транзакции</p>';
         return;
     }
 
-    transactions.forEach(trans => {
-        const item = document.createElement('div');
-        item.className = 'transaction-item';
-
-        const iconClass = trans.type === 'add' ? 'add' : 'subtract';
-        const sign = trans.type === 'add' ? '+' : '-';
-        const amountClass = trans.type === 'add' ? 'add' : 'subtract';
-
-        item.innerHTML = `
-            <div class="transaction-type">
-                <div class="transaction-icon ${iconClass}">
-                    ${trans.type === 'add' ? '✓' : '✗'}
+    transactions.forEach(tx => {
+        const isAdd = tx.type === 'add';
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-color);';
+        div.innerHTML = `
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:36px;height:36px;border-radius:50%;background:${isAdd ? '#d5f5e3' : '#fdecea'};display:flex;align-items:center;justify-content:center;">
+                    <i class="fas fa-${isAdd ? 'plus' : 'minus'}" style="color:${isAdd ? '#27ae60' : '#e74c3c'};font-size:0.85em;"></i>
                 </div>
-                <div class="transaction-details">
-                    <div class="transaction-name">${trans.name}</div>
-                    <div class="transaction-date">${trans.date}</div>
+                <div>
+                    <div style="font-weight:600;font-size:0.9em;">${tx.name}</div>
+                    <div style="font-size:0.78em;color:var(--text-light);">${tx.date}</div>
                 </div>
             </div>
-            <div class="transaction-amount ${amountClass}">
-                ${sign}${trans.amount.toFixed(2)} BGN
+            <div style="font-weight:700;color:${isAdd ? '#27ae60' : '#e74c3c'};">
+                ${isAdd ? '+' : '-'}${tx.amount.toFixed(2)} BGN
             </div>
         `;
-        container.appendChild(item);
+        container.appendChild(div);
     });
 }
 
-function addFunds() {
-    const amount = prompt('Колко средства искаш да добавиш? (BGN)', '20');
-    if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-        const parsedAmount = parseFloat(amount);
-        wallet += parsedAmount;
-        transactions.unshift({
-            type: 'add',
-            name: 'Добавяне на средства',
-            amount: parsedAmount,
-            date: new Date().toLocaleDateString('bg-BG')
-        });
-        saveToLocalStorage();
+async function addFunds() {
+    const amountStr = prompt('Въведи сума за добавяне (BGN):', '20');
+    if (!amountStr) return;
+    const amount = parseFloat(amountStr);
+    if (isNaN(amount) || amount <= 0) { showNotification('Невалидна сума!', 'error'); return; }
+
+    try {
+        const result = await API.addFunds(amount);
+        wallet = result.balance;
+        transactions.unshift({ type: 'add', name: 'Добавени средства', amount, date: new Date().toLocaleDateString('bg-BG') });
         loadWallet();
-        showNotification(`Добавихте ${parsedAmount.toFixed(2)} BGN`, 'success');
+        showNotification(`Добавени ${amount.toFixed(2)} BGN!`, 'success');
+    } catch (err) {
+        showNotification(err.message || 'Грешка!', 'error');
     }
 }
