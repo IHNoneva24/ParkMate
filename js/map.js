@@ -386,23 +386,8 @@ function clearRoute() {
 }
 
 function startNavigationFromInput() {
-    const input = document.getElementById('manualLocationInput');
     const select = document.getElementById('navigateParkingSelect');
     if (!select) return;
-
-    let source = null;
-    if (input && input.value.trim()) {
-        source = parseLatLngInput(input.value.trim());
-        if (!source) {
-            showNotification('Въведи коректни координати в формат lat,lng', 'error');
-            return;
-        }
-    } else if (currentLocation) {
-        source = { lat: currentLocation.lat, lng: currentLocation.lng };
-    } else {
-        showNotification('Нямаме текуща локация. Въведи координати.', 'error');
-        return;
-    }
 
     const parkingId = parseInt(select.value, 10);
     const parking = parkingData.find(p => p.id === parkingId);
@@ -411,9 +396,44 @@ function startNavigationFromInput() {
         return;
     }
 
-    clearRoute();
+    const btn = document.getElementById('navigateBtn');
+    const statusDiv = document.getElementById('navLocationStatus');
+    const statusText = document.getElementById('navLocationStatusText');
 
-    requestRouteAndDraw({ lat: source.lat, lng: source.lng }, { lat: parking.coordinates.lat, lng: parking.coordinates.lng }, parking.name);
+    function doRoute(source) {
+        clearRoute();
+        requestRouteAndDraw(
+            { lat: source.lat, lng: source.lng },
+            { lat: parking.coordinates.lat, lng: parking.coordinates.lng },
+            parking.name
+        );
+    }
+
+    if (currentLocation) {
+        doRoute(currentLocation);
+        return;
+    }
+
+    // No location yet — get it now
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Локация...'; }
+    if (statusDiv) statusDiv.style.display = 'flex';
+    if (statusText) statusText.textContent = 'Определям местоположение...';
+
+    getCurrentLocation()
+        .then(loc => {
+            updateUserLocationOnMap();
+            if (statusText) statusText.textContent = 'Местоположението е намерено!';
+            setTimeout(() => { if (statusDiv) statusDiv.style.display = 'none'; }, 2000);
+            doRoute(loc);
+        })
+        .catch(() => {
+            if (statusText) statusText.textContent = 'Нямаме достъп до локацията.';
+            showNotification('Не можахме да определим местоположението. Моля, разрешете достъп до локация.', 'error');
+            setTimeout(() => { if (statusDiv) statusDiv.style.display = 'none'; }, 3000);
+        })
+        .finally(() => {
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-location-arrow"></i> Навигирай'; }
+        });
 }
 
 async function requestRouteAndDraw(start, end, parkingName) {

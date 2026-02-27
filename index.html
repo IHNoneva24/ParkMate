@@ -218,13 +218,15 @@
                             <div id="navigationPanel" style="margin-top: 18px;">
                                 <h4 style="margin:0 0 10px 0; color: var(--text-dark); font-size: 1.05em;"><i class="fas fa-route"></i> Навигация</h4>
                                 <div style="display:flex; flex-direction: column; gap:8px;">
-
-                                    <input id="manualLocationInput" type="text" placeholder="42.5038,27.4626" style="padding:8px; border:1px solid var(--border-color); border-radius:6px;">
-                                    <label style="font-size:0.9em; color:var(--text-light);">Избери паркинг:</label>
-                                    <select id="navigateParkingSelect" style="padding:8px; border:1px solid var(--border-color); border-radius:6px;"></select>
+                                    <label style="font-size:0.9em; color:var(--text-light);"><i class="fas fa-map-marker-alt" style="color:#e74c3c;"></i> Избери паркинг:</label>
+                                    <select id="navigateParkingSelect" style="padding:8px; border:1px solid var(--border-color); border-radius:6px; font-size:0.9em;"></select>
+                                    <div id="navLocationStatus" style="font-size:0.82em; color:var(--text-light); display:none; align-items:center; gap:6px;">
+                                        <i class="fas fa-crosshairs" style="color:#3498db;"></i>
+                                        <span id="navLocationStatusText">Определям местоположение...</span>
+                                    </div>
                                     <div style="display:flex; gap:8px;">
-                                        <button class="btn btn-primary" onclick="startNavigationFromInput()" style="flex:1;">Навигирай</button>
-                                        <button class="btn" onclick="clearRoute()" style="flex:1;">Изчисти</button>
+                                        <button id="navigateBtn" class="btn btn-primary" onclick="startNavigationFromInput()" style="flex:1;"><i class="fas fa-location-arrow"></i> Навигирай</button>
+                                        <button class="btn" onclick="clearRoute()" style="flex:1;"><i class="fas fa-times"></i> Изчисти</button>
                                     </div>
                                 </div>
                             </div>
